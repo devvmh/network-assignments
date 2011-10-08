@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+<Button 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/startscan"
+	android:id="@+id/startscan_button"
+	android:onClick="startScan"/>
+<TextView 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/lastscantime"
+	android:id="@+id/lastscantime" />
+<TextView 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/myMACaddr"
+	android:id="@+id/myMACaddr" />
+<TextView 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/myIPaddr"
+	android:id="@+id/myIPaddr" />
+<ListView 
+    android:id="@+id/android:list"
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent"/>
+<Button 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/startserver"
+	android:id="@+id/startstop_button"
+	android:onClick="startStopServer"/>
+<TextView
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/status"
+	android:id="@+id/status" />
+</LinearLayout>
