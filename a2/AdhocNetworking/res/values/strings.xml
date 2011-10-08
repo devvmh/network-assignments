@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AdhocNetworking</string>
+	<string name="startscan">Start Scanning</string>
+	<string name="lastscantime">Have not scanned yet, no time to display</string>
+	<string name="myMACaddr">Device MAC addr - should be updated soon</string>
+	<string name="myIPaddr">Not connected - no IP to display</string>
+	<string name="startserver">Start Server</string>
+	<string name="stopserver">Stop Server</string>
+	<string name="status">No status messages yet!</string>
+</resources>
