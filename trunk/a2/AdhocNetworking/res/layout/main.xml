@@ -2,18 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-<Button 
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:text="@string/startscan"
-	android:id="@+id/startscan_button"
-	android:onClick="startScan"/>
-<TextView 
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:text="@string/lastscantime"
-	android:id="@+id/lastscantime" />
+    android:layout_height="fill_parent" android:weightSum="1">
 <TextView 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
@@ -24,16 +13,18 @@
 	android:layout_height="wrap_content"
 	android:text="@string/myIPaddr"
 	android:id="@+id/myIPaddr" />
+<TextView android:id="@+id/lastscantime" android:layout_width="fill_parent" android:text="@string/lastscantime" android:layout_height="wrap_content"></TextView>
+<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1">
+    <Button android:layout_width="141dp" android:layout_height="wrap_content" android:text="Start Scanning" android:id="@+id/startscan_button"></Button>
+    <ProgressBar android:layout_height="42dp" android:layout_width="42dp" style="?android:attr/progressBarStyleLarge" android:id="@+id/progressBar1"></ProgressBar>
+</LinearLayout>
 <ListView 
-    android:id="@+id/android:list"
-    android:layout_height="wrap_content" 
-    android:layout_width="fill_parent"/>
+    android:layout_width="fill_parent" android:id="@+id/neighbourMACs" android:layout_height="87dp" android:layout_weight="0.31"/>
 <Button 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:text="@string/startserver"
-	android:id="@+id/startstop_button"
-	android:onClick="startStopServer"/>
+	android:id="@+id/startstop_button"/>
 <TextView
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
