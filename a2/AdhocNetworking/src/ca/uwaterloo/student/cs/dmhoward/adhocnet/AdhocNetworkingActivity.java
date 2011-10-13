@@ -120,7 +120,7 @@ public class AdhocNetworkingActivity extends Activity {
 		
 		this.sendBLSquery_Button.setText("Send BLS Query");
 		this.sendBLSquery_Button.setOnClickListener(new BlsQueryListener());
-//		this.sendBLSquery_Button.setEnabled(false);
+		this.sendBLSquery_Button.setEnabled(false);
 		
 		this.BLSprogressBar.setVisibility(View.INVISIBLE);
 		
@@ -128,7 +128,7 @@ public class AdhocNetworkingActivity extends Activity {
 		
 		this.startStopServer_Button.setText("Start Server");
 		this.startStopServer_Button.setOnClickListener(new StartServerListener());
-//		this.startStopServer_Button.setEnabled(false);
+		this.startStopServer_Button.setEnabled(false);
 		
 		this.status_TextView.setText("No status.");
 	}
