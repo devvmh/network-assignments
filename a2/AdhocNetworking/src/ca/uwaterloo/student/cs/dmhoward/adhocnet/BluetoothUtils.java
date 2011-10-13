@@ -4,7 +4,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -13,6 +16,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,15 +25,21 @@ import android.widget.ProgressBar;
 
 public class BluetoothUtils {
 	private Activity activity;
+	private Handler handlerInMainActivity;
 	private BluetoothAdapter bluetoothAdapter;
 	private ArrayAdapter<String> arrayAdapter;
 	
 	private Button startscan_Button;
 	private ProgressBar progressBar;
 	
-	public BluetoothUtils(Activity act){
+	private LinkedHashMap<String, String> macMap;
+	
+	
+	public BluetoothUtils(Activity act , Handler handler){
 		this.activity = act;
+		this.handlerInMainActivity = handler;
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		this.macMap = new LinkedHashMap<String, String>();
 		
 		this.findViews();
 		this.initializeViews();
@@ -90,14 +101,12 @@ public class BluetoothUtils {
         
     public ArrayAdapter<String> getArrayAdapter(){
     	this.arrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-
-    	
-    	
     	return this.arrayAdapter;
     }
     
     public void startDiscovery(){
     	this.arrayAdapter.clear();
+    	this.macMap.clear();
     	this.bluetoothAdapter.startDiscovery();
     	this.startscan_Button.setText("Stop Scanning");
     	this.progressBar.setVisibility(View.VISIBLE);
@@ -116,18 +125,25 @@ public class BluetoothUtils {
                 // Get the BluetoothDevice object from the Intent
             	BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             	// Add the name and address to an array adapter to show in a ListView
-            	String deviceInfo = device.getName() + "\n" + device.getAddress();
+            	String deviceInfo = device.getName() + " -- " + device.getAddress();
             	if (!contains(arrayAdapter, deviceInfo)){
-            		arrayAdapter.add(device.getName() + "\n" + device.getAddress());
-            		arrayAdapter.notifyDataSetInvalidated();
+            		arrayAdapter.add(deviceInfo);
+            		macMap.put(device.getName(), device.getAddress());
+//            		arrayAdapter.notifyDataSetInvalidated();
             	}
             }
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+
             	progressBar.setVisibility(View.INVISIBLE);
             	startscan_Button.setText("Start Scanning");
+            	
             	if (arrayAdapter.getCount() == 0) {
-            		arrayAdapter.add("No device.");
+            		arrayAdapter.add("No device was found.");
+            	} else {
+            		handlerInMainActivity.sendEmptyMessage(1);
             	}
+            	
+
             }
 
         }
@@ -141,13 +157,17 @@ public class BluetoothUtils {
     	return this.bluetoothAdapter.isDiscovering();
     }
 
-    private boolean contains(ArrayAdapter<String> aa, String s){
-        for (int i = 0; i < aa.getCount(); i++){
-        	if (aa.getItem(i).equals(s)){
+    private boolean contains(ArrayAdapter<String> myAdapter, String s){
+        for (int i = 0; i < myAdapter.getCount(); i++){
+        	if (myAdapter.getItem(i).equals(s)){
         		return true;
         	}
         }
         return false;
+    }
+    
+    public LinkedHashMap<String, String> getMACmap(){
+    	return this.macMap;
     }
     
     

@@ -1,18 +1,29 @@
 package ca.uwaterloo.student.cs.dmhoward.adhocnet;
 
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class AdhocNetworkingActivity extends Activity {
@@ -28,6 +39,9 @@ public class AdhocNetworkingActivity extends Activity {
 	
 	
 	
+	private ArrayAdapter<String> ipListArrayAdapter;
+	
+	
 	private Button startscan_Button;
 	private TextView lastscan_TextView;
 	private TextView myMAC_TextView;
@@ -35,8 +49,9 @@ public class AdhocNetworkingActivity extends Activity {
 	private ListView neighbourMACs_ListView;
 	private Button startStopServer_Button;
 	private TextView status_TextView;
-	
-	
+	private Button sendBLSquery_Button;
+	private ProgressBar BLSprogressBar;
+	private ListView ipList_ListView;
 	
 
 
@@ -48,7 +63,9 @@ public class AdhocNetworkingActivity extends Activity {
 		setContentView(R.layout.main);
 
 
-		this.bluetooth = new BluetoothUtils(this);
+		this.bluetooth = new BluetoothUtils(this, this.myHandler);
+		
+		ipListArrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item);
 
 		
 		this.findViews();
@@ -77,10 +94,15 @@ public class AdhocNetworkingActivity extends Activity {
 		
 		this.neighbourMACs_ListView = (ListView) findViewById(R.id.neighbourMACs);
 		
-		this.startStopServer_Button = (Button) findViewById(R.id.startstop_button);
+		this.startStopServer_Button = (Button) findViewById(R.id.startStopServer_button);
 		
 		this.status_TextView = (TextView) findViewById(R.id.status);
 		
+		this.sendBLSquery_Button = (Button) findViewById(R.id.sendBLSquery_Button);
+		
+		this.BLSprogressBar = (ProgressBar) findViewById(R.id.progressBar2);
+		
+		this.ipList_ListView = (ListView) findViewById(R.id.IPs_listView);
 	}
 	
 	private void initializeViews(){
@@ -96,9 +118,17 @@ public class AdhocNetworkingActivity extends Activity {
 		this.neighbourMACs_ListView.setAdapter(this.bluetooth.getArrayAdapter());
 		this.neighbourMACs_ListView.setOnItemClickListener(new listClickListener());
 		
+		this.sendBLSquery_Button.setText("Send BLS Query");
+		this.sendBLSquery_Button.setOnClickListener(new BlsQueryListener());
+//		this.sendBLSquery_Button.setEnabled(false);
+		
+		this.BLSprogressBar.setVisibility(View.INVISIBLE);
+		
+		this.ipList_ListView.setAdapter(ipListArrayAdapter);
 		
 		this.startStopServer_Button.setText("Start Server");
 		this.startStopServer_Button.setOnClickListener(new StartServerListener());
+//		this.startStopServer_Button.setEnabled(false);
 		
 		this.status_TextView.setText("No status.");
 	}
@@ -139,7 +169,7 @@ public class AdhocNetworkingActivity extends Activity {
 
 
 
-	class StartScanListener extends AsyncTask<String, Integer, String> implements OnClickListener{
+	class StartScanListener implements OnClickListener{
 
 		public void onClick(View arg0) {
 			if (bluetooth.isDiscovering()){
@@ -158,37 +188,79 @@ public class AdhocNetworkingActivity extends Activity {
 			
 		}
 
-		protected String doInBackground(String... arg0) {
-			return null;
-		}
-
 	}
 
 	class BlsQueryListener extends AsyncTask<String, Integer, String> implements OnClickListener{
 
+		private BLS bls;
+		
 		public void onClick(View v) {
-			System.out.println("BlsQueryListener");
+			BLSprogressBar.setVisibility(View.VISIBLE);
+			ipListArrayAdapter.clear();
+			execute();
+		}
+		
+		protected void onPreExecute() {
+			super.onPreExecute();
+			this.bls = new BLS();
 		}
 
 		protected String doInBackground(String... params) {
+			
+			List<String> testMAClist = new ArrayList<String>();
+			testMAClist.add("38:E7:D8:46:4E:B4");
+			
+			
+			try {
+				bls.sendQueries(testMAClist);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		
+
+//			LinkedHashMap<String, String> macMap = bluetooth.getMACmap();
+//
+//			Set<Entry<String, String>> set = macMap.entrySet();
+//			Iterator<Entry<String, String>> i = set.iterator();
+//			while(i.hasNext()) {
+//				Map.Entry<String, String> me = (Map.Entry<String, String>) i.next();
+//				System.out.print(me.getKey() + ": " + me.getValue());
+//			}
 
 
-
-
-			// TODO Auto-generated method stub
 			return null;
 		}
 
+		protected void onPostExecute(String result) {
+
+			List<QueryResult> resultList = bls.getQueryResults();
+
+			for (int i = 0; i < resultList.size(); i++){
+				if (resultList.get(i) != null){
+					System.out.println(ipListArrayAdapter);
+					ipListArrayAdapter.add(resultList.get(i).lanIP);
+
+				}
+			}
+			BLSprogressBar.setVisibility(View.INVISIBLE);
+		}
+
 	}
+	
+	
 
 	class StartServerListener extends AsyncTask<String, Integer, String> implements OnClickListener{
 		public void onClick(View v) {
 			System.out.println("StartServerListener");
+			ipListArrayAdapter.add("1");
+			execute();
 
 		}
 
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
+			ipListArrayAdapter.add("2");
 			return null;
 		}
 
@@ -208,6 +280,17 @@ public class AdhocNetworkingActivity extends Activity {
 		}
 
 	}
+	
+    private Handler myHandler = new Handler(){
+    	public void handleMessage(Message msg){
+    		switch (msg.what){
+    		case 1: // MAC address Map from Bluetooth is ready
+    			System.out.println("Here!!!");
+    			sendBLSquery_Button.setEnabled(true);
+    			break;
+    		}
+    	}
+    };
 
 
 
