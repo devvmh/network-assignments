@@ -17,12 +17,12 @@
     <ProgressBar android:id="@+id/progressBar1" android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
 </LinearLayout>
 <ListView 
-    android:layout_width="fill_parent" android:id="@+id/neighbourMACs" android:layout_height="87dp" android:layout_weight="0.03"/>
+    android:layout_width="fill_parent" android:id="@+id/neighbourMACs" android:layout_height="53dp"/>
 <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout2">
     <Button android:layout_width="129dp" android:layout_height="wrap_content" android:text="Send BLS Query" android:id="@+id/sendBLSquery_Button"></Button>
     <ProgressBar android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/progressBar2"></ProgressBar>
 </LinearLayout>
-<ListView android:layout_width="match_parent" android:layout_height="81dp" android:id="@+id/queryResult_listView"></ListView>
+<ListView android:layout_width="match_parent" android:layout_height="81dp" android:id="@+id/queryResult_listView" android:layout_weight="0.40"></ListView>
 <Button 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"

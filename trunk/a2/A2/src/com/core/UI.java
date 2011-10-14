@@ -47,7 +47,6 @@ public class UI {
     	this.startStopServer_Button.setText("Start Server");
     	
     	this.sendBLSquery_Button.setEnabled(false);
-    	this.startStopServer_Button.setEnabled(false);
     	this.progressBar1.setVisibility(View.INVISIBLE);
     	this.progressBar2.setVisibility(View.INVISIBLE);
     	this.status_TextView.setText("No status.");
@@ -79,6 +78,7 @@ public class UI {
     	this.startscan_Button.setOnClickListener(this.controller.startScanListener);
     	this.sendBLSquery_Button.setOnClickListener(this.controller.blsQueryListener);
     	this.startStopServer_Button.setOnClickListener(this.controller.startServerListener);
+    	this.ipList_ListView.setOnItemClickListener(this.controller.listClickListener);
     }
     
     
@@ -135,7 +135,9 @@ public class UI {
     	this.sendBLSquery_Button.setEnabled(enable);
     }
     
-    
+    public void updateUI_enableIpList(boolean enable){
+    	this.ipList_ListView.setEnabled(enable);
+    }
     
     
     

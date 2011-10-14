@@ -85,6 +85,15 @@ public class Model {
 		(new QuerySender()).execute();
 	}
 	
+	public void connectToItem(int i){
+		
+	}
+	
+	
+	public void startServer(){
+		
+	}
+	
 	
 	
 	class QuerySender extends AsyncTask<String, Integer, String>{
@@ -108,11 +117,14 @@ public class Model {
 				if (queryResultList.get(i) != null){
 					String ip = queryResultList.get(i).lanIP;
 					ipList.add(ip);
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- " + ip);
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ "\n" + ip);
 				} else {
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " Not found in BLS server.");
+					ipList.add(null);
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ "\n Not found in BLS server.");
 				}
 			}
+			
+
 			
 			ui.updateUI_setSendQueryBnEnabled(true);
 			ui.updateUI_setProgressbar2Visible(false);
