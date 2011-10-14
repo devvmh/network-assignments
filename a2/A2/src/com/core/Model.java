@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.utils.BLS;
 import com.utils.QueryResult;
+import com.utils.SocketManager;
 import com.utils.Trace;
 
 import android.bluetooth.BluetoothAdapter;
@@ -30,6 +31,10 @@ public class Model {
 	private List<String> ipList;
 	private List<QueryResult> queryResultList;
 	
+	private SocketManager connectionManager;
+	
+	private String[] fileArray;
+	
 	public Model(A2Activity act, UI u){
 		this.activity = act;
 		this.ui = u;
@@ -41,6 +46,8 @@ public class Model {
 		
 		
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		
+		this.connectionManager = new SocketManager();
 	}
 	
 	public void initialize(){
@@ -92,11 +99,23 @@ public class Model {
 	
 	public void connectToIp(int i){
 		
+		connectionManager.setDestination(this.ipList.get(i));
+		if (connectionManager.connect()){
+			this.ui.updateUI_setStatus("Connected.");
+			connectionManager.sendStringArray(this.generateFileListArray());
+			this.ui.updateUI_setStatus("File list sent!");
+			
+		} else {
+			this.ui.updateUI_setStatus("Connection failed.");
+		}
+		
+		
+		
 	}
 	
 	
 	public void startServer(){
-		
+		(new ServerStartListening()).execute();
 	}
 	
 	public void selectFile(int i){
@@ -120,8 +139,7 @@ public class Model {
 		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			
-			
+						
 			for (int i = 0; i < queryResultList.size(); i++){
 				if (queryResultList.get(i) != null){
 					String ip = queryResultList.get(i).lanIP;
@@ -133,22 +151,38 @@ public class Model {
 				}
 			}
 			
-
-			
 			ui.updateUI_setSendQueryBnEnabled(true);
 			ui.updateUI_setProgressbar2Visible(false);
-			
-			
+		}
+	}
+	
+	
+	class ServerStartListening extends AsyncTask<String, Integer, String>{
+
+		protected String doInBackground(String... params) {
+			System.out.println("Server started");
+			connectionManager.startServer();
+			return null;
 		}
 		
-
+		protected void onPostExecute(String result) {
+			
+			fileArray = connectionManager.getStringArray();
+			
+			ui.updateUI_setStatus("File list received!");
+			
+			for (int i = 0; i < fileArray.length; i++){
+				ui.updateUI_addItemToFileList(fileArray[i]);
+			}
+			
+			System.out.println("Server received a message.");
+		}
 		
+	
 	}
 	
 	private void showFileList(String[] stringArray){
-		for (int i = 0; i < stringArray.length; i++){
-			this.ui.updateUI_addItemToFileList(stringArray[i]);
-		}
+
 		
 	}
 	

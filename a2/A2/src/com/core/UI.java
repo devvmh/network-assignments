@@ -159,6 +159,10 @@ public class UI {
     	this.fileListArrayAdapter.clear();
     }
     
+    public void updateUI_setStatus(String status){
+    	this.status_TextView.setText(status);
+    }
+    
     
     
 }
