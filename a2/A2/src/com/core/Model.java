@@ -1,5 +1,6 @@
 package com.core;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Environment;
 
 public class Model {
 	private A2Activity activity;
@@ -50,7 +52,7 @@ public class Model {
     	IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     	filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
     	activity.registerReceiver(receiver, filter); // Don't forget to unregister during onDestroy
-		
+    			
 	}
 	
 	public void startScanning(){
@@ -152,6 +154,31 @@ public class Model {
             System.out.println(ex.getMessage());
         }
         return null;
+	}
+	
+	private String[] generateFileListArray(){
+		List<String> fileList = new ArrayList<String>();
+		File root = Environment.getExternalStorageDirectory();
+		
+		addFileToList(fileList, root);
+		
+		String[] toReturn = new String[fileList.size()];
+		fileList.toArray(toReturn);
+		
+		return toReturn;
+	}
+	
+	private void addFileToList(List<String> fileList, File current){
+		if (current.isFile()){
+			fileList.add(current.getAbsolutePath());
+			return;
+		}
+		if (current.listFiles() != null){
+			for (int i = 0; i < current.listFiles().length; i++){
+				File child = current.listFiles()[i];
+				addFileToList(fileList, child);
+			}
+		}
 	}
 	
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
