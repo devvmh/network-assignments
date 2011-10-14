@@ -23,13 +23,9 @@
     <ProgressBar android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/progressBar2"></ProgressBar>
 </LinearLayout>
 <ListView android:layout_width="match_parent" android:id="@+id/queryResult_listView" android:layout_height="80dp"></ListView>
-<Button 
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:id="@+id/startStopServer_button" android:text="startserver"/>
-<TextView
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:id="@+id/status" android:text="status"/>
+<LinearLayout android:id="@+id/linearLayout3" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <Button android:id="@+id/startStopServer_button" android:layout_height="wrap_content" android:text="startserver" android:layout_width="138dp"></Button>
+    <TextView android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="status"></TextView>
+</LinearLayout>
 <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/fileList_ListView"></ListView>
 </LinearLayout>

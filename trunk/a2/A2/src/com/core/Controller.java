@@ -47,7 +47,7 @@ public class Controller {
 	
 	public class StartServerListener implements OnClickListener{
 		public void onClick(View v) {
-
+			model.startServer();
 		}
 	}
 	
