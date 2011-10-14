@@ -52,6 +52,9 @@ public class Model {
     	IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     	filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
     	activity.registerReceiver(receiver, filter); // Don't forget to unregister during onDestroy
+    	
+//    	for testing
+//    	this.showFileList(this.generateFileListArray());
     			
 	}
 	
@@ -87,12 +90,16 @@ public class Model {
 		(new QuerySender()).execute();
 	}
 	
-	public void connectToItem(int i){
+	public void connectToIp(int i){
 		
 	}
 	
 	
 	public void startServer(){
+		
+	}
+	
+	public void selectFile(int i){
 		
 	}
 	
@@ -138,6 +145,12 @@ public class Model {
 		
 	}
 	
+	private void showFileList(String[] stringArray){
+		for (int i = 0; i < stringArray.length; i++){
+			this.ui.updateUI_addItemToFileList(stringArray[i]);
+		}
+		
+	}
 	
 	private String getLocalIP(){
         try {
