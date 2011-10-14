@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.utils.BLS;
 import com.utils.QueryResult;
+import com.utils.Trace;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -59,6 +60,7 @@ public class Model {
 			this.ui.updateUI_setStartScanningBnLael("Start Scanning");
 			this.ui.updateUI_setProgressbar1Visible(false);
 		} else {
+			Trace.logMessage("SCAN_BEGIN");
 			this.ui.updateUI_clearMACList();
 			this.macList.clear();
 			this.nameList.clear();
@@ -152,10 +154,12 @@ public class Model {
             	if (!macList.contains(device.getAddress())){
             		nameList.add(device.getName());
             		macList.add(device.getAddress());
+            		Trace.logMessage("SCAN_DETECT: " + device.getAddress());
             	}
             	ui.updateUI_addItemToMACList(device.getName() + " -- " + device.getAddress());
             }
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+            	
         		String now = String.valueOf(System.currentTimeMillis() / 1000);
         		ui.updateUI_setLastScann(now);
 
@@ -167,6 +171,8 @@ public class Model {
             	} else {
             		ui.updateUI_setSendQueryBnEnabled(true);
             	}
+            	
+            	Trace.logMessage("SCAN_END");
             }
 
         }

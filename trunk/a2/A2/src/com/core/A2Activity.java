@@ -1,5 +1,7 @@
 package com.core;
 
+import com.utils.Trace;
+
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -14,6 +16,8 @@ public class A2Activity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        Trace.deleteOldTrace();
         
         this.view = new UI(this);
         this.model = new Model(this, this.view);
