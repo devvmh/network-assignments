@@ -32,6 +32,8 @@ public class BLS {
 	
 	//Returns one QueryResult object
 	public static QueryResult send1Query(String macAddr) throws Exception{
+		Trace.logMessage("BLS_QUERY: " + macAddr);
+		
 		String uri = url + "?btmachash=" + convertToSHA1(macAddr);
 		HttpGet get = new HttpGet(uri);
 		HttpClient client = new DefaultHttpClient();
@@ -59,6 +61,10 @@ public class BLS {
         	queryResult.wwanIP = st.nextToken();
         	queryResult.timestamp = st.nextToken();
         	queryResult.humanTimestamp = st.nextToken();
+        	
+        	Trace.logMessage("BLS_REPLY: " + queryResult.timestamp + ", " + queryResult.lanIP + ", " + queryResult.wwanIP);
+        } else {
+        	Trace.logMessage("BLS_REPLY: FAILURE");
         }
         
         return queryResult;
