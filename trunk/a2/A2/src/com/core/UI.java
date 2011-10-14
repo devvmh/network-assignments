@@ -15,16 +15,21 @@ public class UI {
 	private TextView lastscan_TextView;
 	private TextView myMAC_TextView;
 	private TextView myIP_TextView;
-	private ListView neighbourMACs_ListView;
+	
 	private Button startStopServer_Button;
 	private TextView status_TextView;
 	private ProgressBar progressBar1;
 	private Button sendBLSquery_Button;
 	private ProgressBar progressBar2;
-	private ListView ipList_ListView;
 	
-	private ArrayAdapter<String> bluetoothArrayAdapter;
-	private ArrayAdapter<String> queryResultArrayAdapter;
+	private ListView macList_ListView;
+	private ListView ipList_ListView;
+	private ListView fileList_ListView;
+	
+	private ArrayAdapter<String> macListArrayAdapter;
+	private ArrayAdapter<String> ipListArrayAdapter;
+	private ArrayAdapter<String> fileListArrayAdapter;
+	
 	
 	
 	public UI(A2Activity act){
@@ -52,11 +57,15 @@ public class UI {
     	this.status_TextView.setText("No status.");
     	
     	
-    	this.bluetoothArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-    	this.neighbourMACs_ListView.setAdapter(this.bluetoothArrayAdapter);
+    	this.macListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
+    	this.macList_ListView.setAdapter(this.macListArrayAdapter);
     	
-    	this.queryResultArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-    	this.ipList_ListView.setAdapter(this.queryResultArrayAdapter);
+    	this.ipListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
+    	this.ipList_ListView.setAdapter(this.ipListArrayAdapter);
+    	
+    	this.fileListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
+    	this.fileList_ListView.setAdapter(fileListArrayAdapter);
+    	
     	
     }
     
@@ -66,19 +75,22 @@ public class UI {
 		this.myMAC_TextView = (TextView) this.activity.findViewById(R.id.myMACaddr);
 		this.myIP_TextView = (TextView) this.activity.findViewById(R.id.myIPaddr);
 		this.progressBar1 = (ProgressBar) this.activity.findViewById(R.id.progressBar1);
-		this.neighbourMACs_ListView = (ListView) this.activity.findViewById(R.id.neighbourMACs);
+		this.macList_ListView = (ListView) this.activity.findViewById(R.id.macList_ListView);
 		this.startStopServer_Button = (Button) this.activity.findViewById(R.id.startStopServer_button);
 		this.status_TextView = (TextView) this.activity.findViewById(R.id.status);
 		this.sendBLSquery_Button = (Button) this.activity.findViewById(R.id.sendBLSquery_Button);
 		this.progressBar2 = (ProgressBar) this.activity.findViewById(R.id.progressBar2);
 		this.ipList_ListView = (ListView) this.activity.findViewById(R.id.queryResult_listView);
+		this.fileList_ListView = (ListView) this.activity.findViewById(R.id.fileList_ListView);
     }
     
     public void setListeners(){
     	this.startscan_Button.setOnClickListener(this.controller.startScanListener);
     	this.sendBLSquery_Button.setOnClickListener(this.controller.blsQueryListener);
     	this.startStopServer_Button.setOnClickListener(this.controller.startServerListener);
-    	this.ipList_ListView.setOnItemClickListener(this.controller.listClickListener);
+    	this.ipList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
+    	this.fileList_ListView.setOnItemClickListener(this.controller.fileListClickListener);
+    	
     }
     
     
@@ -99,20 +111,20 @@ public class UI {
     }
     
     public void updateUI_addItemToMACList(String item){
-    	this.bluetoothArrayAdapter.add(item);
+    	this.macListArrayAdapter.add(item);
     }
     
     public void updateUI_clearMACList(){
-    	this.bluetoothArrayAdapter.clear();
+    	this.macListArrayAdapter.clear();
     }
     
     
     public void updateUI_addItemToQueryResultList(String item){
-    	this.queryResultArrayAdapter.add(item);
+    	this.ipListArrayAdapter.add(item);
     }
     
     public void updateUI_clearQueryResultList(){
-    	this.queryResultArrayAdapter.clear();
+    	this.ipListArrayAdapter.clear();
     }
     
     public void updateUI_setProgressbar1Visible(boolean isVisible){
@@ -137,6 +149,14 @@ public class UI {
     
     public void updateUI_enableIpList(boolean enable){
     	this.ipList_ListView.setEnabled(enable);
+    }
+    
+    public void updateUI_addItemToFileList(String item){
+    	this.fileListArrayAdapter.add(item);
+    }
+    
+    public void updateUI_clearFileList(){
+    	this.fileListArrayAdapter.clear();
     }
     
     

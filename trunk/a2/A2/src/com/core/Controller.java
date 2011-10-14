@@ -11,7 +11,9 @@ public class Controller {
 	public StartScanListener startScanListener;
 	public BlsQueryListener blsQueryListener;
 	public StartServerListener startServerListener;
-	public ListClickListener listClickListener;
+	public IpListClickListener ipListClickListener;
+	public FileListClickListener fileListClickListener;
+	
 	
 	
 	public Controller(Model m){
@@ -19,7 +21,8 @@ public class Controller {
 		this.startScanListener = new StartScanListener();
 		this.blsQueryListener = new BlsQueryListener();
 		this.startServerListener = new StartServerListener();
-		this.listClickListener = new ListClickListener();
+		this.ipListClickListener = new IpListClickListener();
+		this.fileListClickListener = new FileListClickListener();
 	}
 	
 	
@@ -48,9 +51,15 @@ public class Controller {
 		}
 	}
 	
-	public class ListClickListener implements OnItemClickListener{
+	public class IpListClickListener implements OnItemClickListener{
 		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-			model.connectToItem(position);
+			model.connectToIp(position);
+		}
+	}
+	
+	public class FileListClickListener implements OnItemClickListener{
+		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+			model.selectFile(position);
 		}
 	}
 	
