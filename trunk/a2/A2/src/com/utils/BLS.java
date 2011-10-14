@@ -16,27 +16,23 @@ import android.util.Base64;
 
 public class BLS {
 	
-	private final String url = "http://blow.cs.uwaterloo.ca/cgi-bin/bls_query.pl";
+	private final static String url = "http://blow.cs.uwaterloo.ca/cgi-bin/bls_query.pl";
 	
-	private List<QueryResult> resultList;
-	
-	
-	public BLS(){
-		this.resultList = new ArrayList<QueryResult>();
-	}
-	
-	public List<QueryResult> sendQueries(List<String> macList) throws Exception{
+	//Returns a list of QueryResult objects
+	public static List<QueryResult> sendQueries(List<String> macList) throws Exception{
+		List<QueryResult> resultList = new ArrayList<QueryResult>();
 		for (int i = 0; i < macList.size(); i++){
 			String mac = macList.get(i);
-			QueryResult oneResult = this.send1Query(mac);
-			this.resultList.add(oneResult);
+			QueryResult oneResult = BLS.send1Query(mac);
+			resultList.add(oneResult);
 		}
-		return this.resultList;
+		return resultList;
 	}
 	
 	
-	public QueryResult send1Query(String macAddr) throws Exception{
-		String uri = this.url + "?btmachash=" + convertToSHA1(macAddr);
+	//Returns one QueryResult object
+	public static QueryResult send1Query(String macAddr) throws Exception{
+		String uri = url + "?btmachash=" + convertToSHA1(macAddr);
 		HttpGet get = new HttpGet(uri);
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(get);
@@ -71,7 +67,7 @@ public class BLS {
 	
 
 	
-	private String convertToSHA1(String mac) throws NoSuchAlgorithmException{
+	private static String convertToSHA1(String mac) throws NoSuchAlgorithmException{
 		String macTransform = mac.toLowerCase();
 		StringTokenizer st = new StringTokenizer(macTransform,":");
 		String macTransform2 = "";

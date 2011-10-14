@@ -73,21 +73,24 @@ public class Model {
 	
 	
 	public void sendQuery(){
+		this.ui.updateUI_setSendQueryBnEnabled(false);
 		this.ui.updateUI_setProgressbar2Visible(true);
+		
+		
 		this.ui.updateUI_clearQueryResultList();
+		this.ipList.clear();
+		
 		(new QuerySender()).execute();
 	}
 	
 	
 	
 	class QuerySender extends AsyncTask<String, Integer, String>{
-		QueryResult tmp;
 		
 		protected String doInBackground(String... params) {
-			BLS bls = new BLS();
 			
 			try {
-				tmp = bls.send1Query("38:E7:D8:46:4E:B4");
+				queryResultList = BLS.sendQueries(macList);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,8 +100,21 @@ public class Model {
 		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			ui.updateUI_addItemToQueryResultList("test " + tmp.lanIP);
+			
+			
+			for (int i = 0; i < queryResultList.size(); i++){
+				if (queryResultList.get(i) != null){
+					String ip = queryResultList.get(i).lanIP;
+					ipList.add(ip);
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- " + ip);
+				} else {
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " Not found in BLS server.");
+				}
+			}
+			
+			ui.updateUI_setSendQueryBnEnabled(true);
 			ui.updateUI_setProgressbar2Visible(false);
+			
 			
 		}
 		
