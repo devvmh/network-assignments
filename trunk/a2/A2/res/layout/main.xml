@@ -22,10 +22,11 @@
     <Button android:layout_width="129dp" android:layout_height="wrap_content" android:text="Send BLS Query" android:id="@+id/sendBLSquery_Button"></Button>
     <ProgressBar android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/progressBar2"></ProgressBar>
 </LinearLayout>
-<ListView android:layout_width="match_parent" android:id="@+id/queryResult_listView" android:layout_height="80dp"></ListView>
+<ListView android:layout_width="match_parent" android:id="@+id/queryResult_listView" android:layout_height="55dp"></ListView>
 <LinearLayout android:id="@+id/linearLayout3" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <Button android:id="@+id/startStopServer_button" android:layout_height="wrap_content" android:text="startserver" android:layout_width="138dp"></Button>
+    <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/serverState_Button" android:textOff="Server Off" android:textOn="Server On"></ToggleButton>
     <TextView android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="status"></TextView>
 </LinearLayout>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Button" android:id="@+id/sendFileList_Button"></Button>
 <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/fileList_ListView"></ListView>
 </LinearLayout>

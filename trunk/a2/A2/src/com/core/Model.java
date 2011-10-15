@@ -33,7 +33,11 @@ public class Model {
 	
 	private SocketManager connectionManager;
 	
+	private ServerListeningTask serverListeningTask;
+	
 	private String[] fileArray;
+	
+	private int connectedTo;
 	
 	public Model(A2Activity act, UI u){
 		this.activity = act;
@@ -48,6 +52,8 @@ public class Model {
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		
 		this.connectionManager = new SocketManager();
+		
+		
 	}
 	
 	public void initialize(){
@@ -101,26 +107,36 @@ public class Model {
 		
 		connectionManager.setDestination(this.ipList.get(i));
 		if (connectionManager.connect()){
-			this.ui.updateUI_setStatus("Connected.");
-			connectionManager.sendStringArray(this.generateFileListArray());
-			this.ui.updateUI_setStatus("File list sent!");
-			
+			this.ui.updateUI_setStatus("Connected to " + this.ipList.get(i));
+			this.ui.updateUI_setSendFilelistEnabled(true);
+			this.connectedTo = i;
 		} else {
 			this.ui.updateUI_setStatus("Connection failed.");
 		}
 		
-		
-		
+	}
+	
+	public void sendFileList(){
+		this.connectionManager.sendStringArray(this.generateFileListArray());
 	}
 	
 	
-	public void startServer(){
-		(new ServerStartListening()).execute();
+	
+	
+	public void startServer(boolean turnOn){
+		if (turnOn){
+			this.serverListeningTask = new ServerListeningTask();
+			this.serverListeningTask.execute();
+		} else {
+			this.serverListeningTask.onCancelled();
+		}
 	}
 	
 	public void selectFile(int i){
 		
 	}
+	
+
 	
 	
 	
@@ -144,10 +160,10 @@ public class Model {
 				if (queryResultList.get(i) != null){
 					String ip = queryResultList.get(i).lanIP;
 					ipList.add(ip);
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ "\n" + ip);
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- " + ip);
 				} else {
 					ipList.add(null);
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ "\n Not found in BLS server.");
+					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- Not found in BLS server.");
 				}
 			}
 			
@@ -157,10 +173,14 @@ public class Model {
 	}
 	
 	
-	class ServerStartListening extends AsyncTask<String, Integer, String>{
+	class ServerListeningTask extends AsyncTask<String, Integer, String>{
+
+		protected void onCancelled() {
+			super.onCancelled();
+			connectionManager.shutdownServer();
+		}
 
 		protected String doInBackground(String... params) {
-			System.out.println("Server started");
 			connectionManager.startServer();
 			return null;
 		}
@@ -169,22 +189,21 @@ public class Model {
 			
 			fileArray = connectionManager.getStringArray();
 			
-			ui.updateUI_setStatus("File list received!");
 			
-			for (int i = 0; i < fileArray.length; i++){
-				ui.updateUI_addItemToFileList(fileArray[i]);
+			if (fileArray != null){
+				ui.updateUI_setStatus("File list received!");
+
+				for (int i = 0; i < fileArray.length; i++){
+					ui.updateUI_addItemToFileList(fileArray[i]);
+				}
+			} else {
+				ui.updateUI_setStatus("Failed to obtain file list.");
 			}
-			
-			System.out.println("Server received a message.");
 		}
 		
 	
 	}
 	
-	private void showFileList(String[] stringArray){
-
-		
-	}
 	
 	private String getLocalIP(){
         try {
