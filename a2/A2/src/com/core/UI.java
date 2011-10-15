@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class UI {
 	private A2Activity activity;
@@ -16,11 +17,12 @@ public class UI {
 	private TextView myMAC_TextView;
 	private TextView myIP_TextView;
 	
-	private Button startStopServer_Button;
 	private TextView status_TextView;
 	private ProgressBar progressBar1;
 	private Button sendBLSquery_Button;
 	private ProgressBar progressBar2;
+	private ToggleButton serverState_Button;
+	private Button sendFileList_Button;
 	
 	private ListView macList_ListView;
 	private ListView ipList_ListView;
@@ -49,11 +51,16 @@ public class UI {
     	this.myMAC_TextView.setText("No mac");
     	this.myIP_TextView.setText("No ip");
     	this.sendBLSquery_Button.setText("Send BLS Query");
-    	this.startStopServer_Button.setText("Start Server");
+    	this.sendFileList_Button.setText("Send My file list");
+    	
     	
     	this.sendBLSquery_Button.setEnabled(false);
+    	
+    	this.sendFileList_Button.setEnabled(false);
+    	
     	this.progressBar1.setVisibility(View.INVISIBLE);
     	this.progressBar2.setVisibility(View.INVISIBLE);
+    	    	
     	this.status_TextView.setText("No status.");
     	
     	
@@ -76,21 +83,22 @@ public class UI {
 		this.myIP_TextView = (TextView) this.activity.findViewById(R.id.myIPaddr);
 		this.progressBar1 = (ProgressBar) this.activity.findViewById(R.id.progressBar1);
 		this.macList_ListView = (ListView) this.activity.findViewById(R.id.macList_ListView);
-		this.startStopServer_Button = (Button) this.activity.findViewById(R.id.startStopServer_button);
 		this.status_TextView = (TextView) this.activity.findViewById(R.id.status);
 		this.sendBLSquery_Button = (Button) this.activity.findViewById(R.id.sendBLSquery_Button);
 		this.progressBar2 = (ProgressBar) this.activity.findViewById(R.id.progressBar2);
 		this.ipList_ListView = (ListView) this.activity.findViewById(R.id.queryResult_listView);
 		this.fileList_ListView = (ListView) this.activity.findViewById(R.id.fileList_ListView);
+		this.serverState_Button = (ToggleButton) this.activity.findViewById(R.id.serverState_Button);
+		this.sendFileList_Button = (Button) this.activity.findViewById(R.id.sendFileList_Button);
     }
     
     public void setListeners(){
     	this.startscan_Button.setOnClickListener(this.controller.startScanListener);
     	this.sendBLSquery_Button.setOnClickListener(this.controller.blsQueryListener);
-    	this.startStopServer_Button.setOnClickListener(this.controller.startServerListener);
     	this.ipList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
     	this.fileList_ListView.setOnItemClickListener(this.controller.fileListClickListener);
-    	
+    	this.serverState_Button.setOnCheckedChangeListener(this.controller.serverStateBnClickListener);
+    	this.sendFileList_Button.setOnClickListener(this.controller.sendFileListBnListener);
     }
     
     
@@ -163,6 +171,8 @@ public class UI {
     	this.status_TextView.setText(status);
     }
     
-    
+    public void updateUI_setSendFilelistEnabled(boolean enable){
+    	this.sendFileList_Button.setEnabled(enable);
+    }
     
 }
