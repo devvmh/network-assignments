@@ -23,6 +23,7 @@ public class UI {
 	private ProgressBar progressBar2;
 	private ToggleButton serverState_Button;
 	private Button sendFileList_Button;
+	private Button disconnect_Button;
 	
 	private ListView macList_ListView;
 	private ListView ipList_ListView;
@@ -54,8 +55,9 @@ public class UI {
     	this.sendFileList_Button.setText("Send My file list");
     	
     	
-    	this.sendBLSquery_Button.setEnabled(false);
     	
+    	this.sendBLSquery_Button.setEnabled(false);
+    	this.disconnect_Button.setEnabled(false);
     	this.sendFileList_Button.setEnabled(false);
     	
     	this.progressBar1.setVisibility(View.INVISIBLE);
@@ -89,6 +91,7 @@ public class UI {
 		this.ipList_ListView = (ListView) this.activity.findViewById(R.id.queryResult_listView);
 		this.fileList_ListView = (ListView) this.activity.findViewById(R.id.fileList_ListView);
 		this.serverState_Button = (ToggleButton) this.activity.findViewById(R.id.serverState_Button);
+		this.disconnect_Button = (Button) this.activity.findViewById(R.id.disconnect_Button);
 		this.sendFileList_Button = (Button) this.activity.findViewById(R.id.sendFileList_Button);
     }
     
@@ -99,6 +102,7 @@ public class UI {
     	this.fileList_ListView.setOnItemClickListener(this.controller.fileListClickListener);
     	this.serverState_Button.setOnCheckedChangeListener(this.controller.serverStateBnClickListener);
     	this.sendFileList_Button.setOnClickListener(this.controller.sendFileListBnListener);
+    	this.disconnect_Button.setOnClickListener(this.controller.disconnectBnListener);
     }
     
     
@@ -173,6 +177,36 @@ public class UI {
     
     public void updateUI_setSendFilelistEnabled(boolean enable){
     	this.sendFileList_Button.setEnabled(enable);
+    }
+    
+    public void updateUI_setServerOnBn(boolean on){
+    	this.serverState_Button.setChecked(on);
+    }
+    
+    public void updateUI_setServerOnBnEnabled(boolean enable){
+    	this.serverState_Button.setEnabled(enable);
+    }
+    
+    public void updateUI_setSendFileListBnEnabled(boolean enable){
+    	this.sendFileList_Button.setEnabled(enable);
+    }
+    
+    public void updateUI_setServerModeOn(boolean on){
+    	this.startscan_Button.setEnabled(!on);
+    	this.macList_ListView.setEnabled(!on);
+    	this.ipList_ListView.setEnabled(!on);
+    	this.sendBLSquery_Button.setEnabled(!on);
+    	this.serverState_Button.setChecked(on);
+    }
+    
+    public void updateUI_setConnectedMode(boolean on){
+    	this.startscan_Button.setEnabled(!on);
+    	this.macList_ListView.setEnabled(!on);
+    	this.ipList_ListView.setEnabled(!on);
+    	this.sendBLSquery_Button.setEnabled(!on);
+    	this.serverState_Button.setEnabled(!on);
+    	this.disconnect_Button.setEnabled(on);
+    	this.sendFileList_Button.setEnabled(on);
     }
     
 }

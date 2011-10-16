@@ -1,6 +1,7 @@
 package com.core;
 
 import java.io.File;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -8,8 +9,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.utils.BLS;
+import com.utils.ConnectionManager;
 import com.utils.QueryResult;
-import com.utils.SocketManager;
 import com.utils.Trace;
 
 import android.bluetooth.BluetoothAdapter;
@@ -20,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
 
 public class Model {
 	private A2Activity activity;
@@ -31,33 +33,34 @@ public class Model {
 	private List<String> ipList;
 	private List<QueryResult> queryResultList;
 	
-	private SocketManager connectionManager;
-	
-	private ServerListeningTask serverListeningTask;
+	private ConnectionManager connectionManager;
 	
 	private String[] fileArray;
 	
 	private int connectedTo;
 	
+	private boolean serverIsOn;
+	
 	public Model(A2Activity act, UI u){
 		this.activity = act;
 		this.ui = u;
+	}
+	
+
+	
+	public void initialize(){
+		this.ui.initialize();
+		
 		
 		this.nameList = new ArrayList<String>();
 		this.macList = new ArrayList<String>();
 		this.ipList = new ArrayList<String>();
 		this.queryResultList = new ArrayList<QueryResult>();
 		
-		
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		
-		this.connectionManager = new SocketManager();
-		
-		
-	}
-	
-	public void initialize(){
-		this.ui.initialize();
+		this.connectionManager = new ConnectionManager();
+		this.serverIsOn = false;
 		
 		this.ui.updateUI_setMyMac(this.bluetoothAdapter.getAddress());
 		this.ui.updateUI_setMyip(this.getLocalIP());
@@ -66,9 +69,11 @@ public class Model {
     	filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
     	activity.registerReceiver(receiver, filter); // Don't forget to unregister during onDestroy
     	
-//    	for testing
-//    	this.showFileList(this.generateFileListArray());
     			
+	}
+	
+	public void setServerHandler(Handler h){
+		this.connectionManager.setHandler(h);
 	}
 	
 	public void startScanning(){
@@ -103,32 +108,51 @@ public class Model {
 		(new QuerySender()).execute();
 	}
 	
-	public void connectToIp(int i){
-		
-		connectionManager.setDestination(this.ipList.get(i));
-		if (connectionManager.connect()){
-			this.ui.updateUI_setStatus("Connected to " + this.ipList.get(i));
-			this.ui.updateUI_setSendFilelistEnabled(true);
-			this.connectedTo = i;
-		} else {
-			this.ui.updateUI_setStatus("Connection failed.");
-		}
-		
+	public void connectTo(int ip){
+		connectionManager.connectTo(this.ipList.get(ip));	
+	}
+	
+	public void cannotConnectToServer(){
+		this.ui.updateUI_setStatus("Connection failed.");
+		this.ui.updateUI_setSendFilelistEnabled(false);
+		this.ui.updateUI_setSendFileListBnEnabled(false);
+	}
+	
+	public void connectedToServer(){
+		this.ui.updateUI_setStatus("Connected to server");
+		this.ui.updateUI_setConnectedMode(true);
+	}
+	
+	public void connectedToClient(){
+		this.ui.updateUI_setStatus("Connected to client");
+		this.ui.updateUI_setConnectedMode(true);
 	}
 	
 	public void sendFileList(){
-		this.connectionManager.sendStringArray(this.generateFileListArray());
+		this.connectionManager.sendFileList(this.generateFileListArray());
 	}
 	
 	
+	public void stringArrayArrived(){
+		this.fileArray = this.connectionManager.getReceivedArray();
+		this.connectionManager.clearInbox();
+		
+		ui.updateUI_setStatus("File list received!");
+
+		for (int i = 0; i < fileArray.length; i++){
+			ui.updateUI_addItemToFileList(fileArray[i]);
+		}
+	}
 	
 	
 	public void startServer(boolean turnOn){
 		if (turnOn){
-			this.serverListeningTask = new ServerListeningTask();
-			this.serverListeningTask.execute();
+			this.connectionManager.startServer();
+			this.ui.updateUI_setServerModeOn(true);
+			
 		} else {
-			this.serverListeningTask.onCancelled();
+			this.connectionManager.stopServer();
+			this.ui.updateUI_setServerModeOn(false);
 		}
 	}
 	
@@ -136,8 +160,17 @@ public class Model {
 		
 	}
 	
+	
 
 	
+	
+	public void pinged(){
+		this.ui.updateUI_setStatus("Pinged");
+		this.ui.updateUI_setSendFileListBnEnabled(true);
+	}
+	
+
+
 	
 	
 	class QuerySender extends AsyncTask<String, Integer, String>{
@@ -173,36 +206,13 @@ public class Model {
 	}
 	
 	
-	class ServerListeningTask extends AsyncTask<String, Integer, String>{
-
-		protected void onCancelled() {
-			super.onCancelled();
-			connectionManager.shutdownServer();
-		}
-
-		protected String doInBackground(String... params) {
-			connectionManager.startServer();
-			return null;
-		}
-		
-		protected void onPostExecute(String result) {
-			
-			fileArray = connectionManager.getStringArray();
-			
-			
-			if (fileArray != null){
-				ui.updateUI_setStatus("File list received!");
-
-				for (int i = 0; i < fileArray.length; i++){
-					ui.updateUI_addItemToFileList(fileArray[i]);
-				}
-			} else {
-				ui.updateUI_setStatus("Failed to obtain file list.");
-			}
-		}
-		
 	
+	public void disconnect(boolean isFromExternal){
+		this.connectionManager.disconnect(isFromExternal);
+		this.ui.updateUI_setStatus("Disconnected.");
+		this.ui.updateUI_setConnectedMode(false);
 	}
+	
 	
 	
 	private String getLocalIP(){
