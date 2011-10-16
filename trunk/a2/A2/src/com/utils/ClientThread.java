@@ -59,10 +59,12 @@ public class ClientThread extends Thread {
 			clientSocket = new Socket(ip, 62009);
 		} catch (Exception e){
 			handler.sendEmptyMessage(99); // cannot connect to server
+			Trace.logMessage("CONNECT: " + ip + ", FAILURE");
 			return;
 		}
 		
 		handler.sendEmptyMessage(100); // connected to server
+		Trace.logMessage("CONNECT: " + ip + ", SUCCESS");
 		
 		try {
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());

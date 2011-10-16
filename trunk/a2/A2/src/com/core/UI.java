@@ -3,8 +3,10 @@ package com.core;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,7 +39,7 @@ public class UI {
 	private ArrayAdapter<String> fileListArrayAdapter;
 	
 	private AlertDialog downloadDialog;
-	
+	private AlertDialog allowToTransferDialog;
 	
 	
 	public UI(A2Activity act){
@@ -81,6 +83,13 @@ public class UI {
     	.setTitle("File Download")
     	.setPositiveButton("Yes", this.controller.alertDialogListener)
     	.setNegativeButton("No", this.controller.alertDialogListener)
+    	.create();
+    	
+    	this.allowToTransferDialog = new AlertDialog.Builder(activity)
+    	.setTitle("Download file request")
+    	.setMessage("Someone is trying to download a file from this machine. Allow?")
+    	.setPositiveButton("Allow", this.controller.allowToTransferDialogListener)
+    	.setNegativeButton("No", this.controller.allowToTransferDialogListener)
     	.create();
     	
     	
@@ -204,6 +213,24 @@ public class UI {
     
     public void updateUI_dismissAlertDialog(){
     	this.downloadDialog.dismiss();
+    }
+    
+    
+    public void updateUI_vibrate(){
+    	// Get instance of Vibrator from current Context
+    	Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+    	 
+    	// Vibrate for 300 milliseconds
+    	v.vibrate(300);
+    }
+    
+    public void updateUI_showAllowToTranserDialog(){
+    	this.allowToTransferDialog.show();
+    	// Get instance of Vibrator from current Context
+    	Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+    	 
+    	// Vibrate for 300 milliseconds
+    	v.vibrate(300);
     }
     
     
