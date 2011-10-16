@@ -11,23 +11,22 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:id="@+id/myIPaddr" android:text="myIPaddr"/>
+<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout4" android:layout_height="wrap_content"></LinearLayout>
 <TextView android:id="@+id/lastscantime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="lastscantime"></TextView>
 <LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1">
     <Button android:layout_width="141dp" android:layout_height="wrap_content" android:text="Start Scanning" android:id="@+id/startscan_button"></Button>
+    <Button android:layout_width="129dp" android:text="Send BLS Query" android:layout_height="wrap_content" android:id="@+id/sendBLSquery_Button"></Button>
     <ProgressBar android:id="@+id/progressBar1" android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
 </LinearLayout>
 <ListView 
-    android:layout_width="fill_parent" android:layout_height="53dp" android:id="@+id/macList_ListView"/>
-<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout2">
-    <Button android:layout_width="129dp" android:layout_height="wrap_content" android:text="Send BLS Query" android:id="@+id/sendBLSquery_Button"></Button>
-    <ProgressBar android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/progressBar2"></ProgressBar>
-</LinearLayout>
-<ListView android:layout_width="match_parent" android:id="@+id/queryResult_listView" android:layout_height="55dp"></ListView>
+    android:layout_width="fill_parent" android:id="@+id/macList_ListView" android:layout_height="wrap_content"/>
 <LinearLayout android:id="@+id/linearLayout3" android:layout_width="match_parent" android:layout_height="wrap_content">
     <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/serverState_Button" android:textOff="Server Off" android:textOn="Server On"></ToggleButton>
     <TextView android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="status"></TextView>
 </LinearLayout>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Disconnect" android:id="@+id/disconnect_Button"></Button>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/sendFileList_Button" android:text="send file list"></Button>
+<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout5" android:layout_height="wrap_content">
+    <Button android:layout_width="wrap_content" android:text="Disconnect" android:layout_height="wrap_content" android:id="@+id/disconnect_Button"></Button>
+    <Button android:layout_width="wrap_content" android:text="send file list" android:layout_height="wrap_content" android:id="@+id/sendFileList_Button"></Button>
+</LinearLayout>
 <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/fileList_ListView"></ListView>
 </LinearLayout>

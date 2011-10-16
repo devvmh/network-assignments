@@ -20,17 +20,14 @@ public class UI {
 	private TextView status_TextView;
 	private ProgressBar progressBar1;
 	private Button sendBLSquery_Button;
-	private ProgressBar progressBar2;
 	private ToggleButton serverState_Button;
 	private Button sendFileList_Button;
 	private Button disconnect_Button;
 	
 	private ListView macList_ListView;
-	private ListView ipList_ListView;
 	private ListView fileList_ListView;
 	
 	private ArrayAdapter<String> macListArrayAdapter;
-	private ArrayAdapter<String> ipListArrayAdapter;
 	private ArrayAdapter<String> fileListArrayAdapter;
 	
 	
@@ -61,7 +58,6 @@ public class UI {
     	this.sendFileList_Button.setEnabled(false);
     	
     	this.progressBar1.setVisibility(View.INVISIBLE);
-    	this.progressBar2.setVisibility(View.INVISIBLE);
     	    	
     	this.status_TextView.setText("No status.");
     	
@@ -69,8 +65,6 @@ public class UI {
     	this.macListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
     	this.macList_ListView.setAdapter(this.macListArrayAdapter);
     	
-    	this.ipListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-    	this.ipList_ListView.setAdapter(this.ipListArrayAdapter);
     	
     	this.fileListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
     	this.fileList_ListView.setAdapter(fileListArrayAdapter);
@@ -87,8 +81,6 @@ public class UI {
 		this.macList_ListView = (ListView) this.activity.findViewById(R.id.macList_ListView);
 		this.status_TextView = (TextView) this.activity.findViewById(R.id.status);
 		this.sendBLSquery_Button = (Button) this.activity.findViewById(R.id.sendBLSquery_Button);
-		this.progressBar2 = (ProgressBar) this.activity.findViewById(R.id.progressBar2);
-		this.ipList_ListView = (ListView) this.activity.findViewById(R.id.queryResult_listView);
 		this.fileList_ListView = (ListView) this.activity.findViewById(R.id.fileList_ListView);
 		this.serverState_Button = (ToggleButton) this.activity.findViewById(R.id.serverState_Button);
 		this.disconnect_Button = (Button) this.activity.findViewById(R.id.disconnect_Button);
@@ -98,7 +90,7 @@ public class UI {
     public void setListeners(){
     	this.startscan_Button.setOnClickListener(this.controller.startScanListener);
     	this.sendBLSquery_Button.setOnClickListener(this.controller.blsQueryListener);
-    	this.ipList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
+    	this.macList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
     	this.fileList_ListView.setOnItemClickListener(this.controller.fileListClickListener);
     	this.serverState_Button.setOnCheckedChangeListener(this.controller.serverStateBnClickListener);
     	this.sendFileList_Button.setOnClickListener(this.controller.sendFileListBnListener);
@@ -131,13 +123,7 @@ public class UI {
     }
     
     
-    public void updateUI_addItemToQueryResultList(String item){
-    	this.ipListArrayAdapter.add(item);
-    }
     
-    public void updateUI_clearQueryResultList(){
-    	this.ipListArrayAdapter.clear();
-    }
     
     public void updateUI_setProgressbar1Visible(boolean isVisible){
     	if (isVisible){
@@ -147,21 +133,11 @@ public class UI {
     	}
     }
     
-    public void updateUI_setProgressbar2Visible(boolean isVisible){
-    	if (isVisible){
-    		this.progressBar2.setVisibility(View.VISIBLE);
-    	} else {
-    		this.progressBar2.setVisibility(View.INVISIBLE);
-    	}
-    }
     
     public void updateUI_setSendQueryBnEnabled(boolean enable){
     	this.sendBLSquery_Button.setEnabled(enable);
     }
     
-    public void updateUI_enableIpList(boolean enable){
-    	this.ipList_ListView.setEnabled(enable);
-    }
     
     public void updateUI_addItemToFileList(String item){
     	this.fileListArrayAdapter.add(item);
@@ -194,7 +170,6 @@ public class UI {
     public void updateUI_setServerModeOn(boolean on){
     	this.startscan_Button.setEnabled(!on);
     	this.macList_ListView.setEnabled(!on);
-    	this.ipList_ListView.setEnabled(!on);
     	this.sendBLSquery_Button.setEnabled(!on);
     	this.serverState_Button.setChecked(on);
     }
@@ -202,7 +177,6 @@ public class UI {
     public void updateUI_setConnectedMode(boolean on){
     	this.startscan_Button.setEnabled(!on);
     	this.macList_ListView.setEnabled(!on);
-    	this.ipList_ListView.setEnabled(!on);
     	this.sendBLSquery_Button.setEnabled(!on);
     	this.serverState_Button.setEnabled(!on);
     	this.disconnect_Button.setEnabled(on);
