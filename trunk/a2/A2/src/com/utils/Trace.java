@@ -12,7 +12,7 @@ import android.os.Environment;
 public class Trace {
 	private final static File traceFile = new File(Environment.getExternalStorageDirectory(),"trace.txt");
 	
-	private static String now(){
+	public static String now(){
 		String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 	    Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);

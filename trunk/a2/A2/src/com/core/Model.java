@@ -172,7 +172,6 @@ public class Model {
 	public void sendFile(){
 		String filename = this.connectionManager.getReceivedFileName();
 		this.connectionManager.clearInbox();
-		System.out.println(filename);
 		this.connectionManager.sendFile(filename);
 	}
 	
@@ -240,8 +239,8 @@ public class Model {
                     }
                 }
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (Exception e) {
+        	e.printStackTrace();
         }
         return null;
 	}
@@ -289,7 +288,7 @@ public class Model {
             }
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
             	
-        		String now = String.valueOf(System.currentTimeMillis() / 1000);
+        		String now = String.valueOf(Trace.now());
         		ui.updateUI_setLastScann(now);
 
             	ui.updateUI_setProgressbar1Visible(false);
