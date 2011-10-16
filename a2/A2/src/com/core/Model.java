@@ -155,7 +155,13 @@ public class Model {
 	}
 	
 	public void selectFile(int i){
-		
+		this.connectionManager.sendFileRequest(fileArray[i]);
+	}
+	
+	
+	public void sendFile(){
+		String filename = this.connectionManager.getReceivedFileName();
+		System.out.println(filename);
 	}
 	
 	

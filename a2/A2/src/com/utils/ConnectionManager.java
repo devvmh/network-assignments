@@ -108,23 +108,27 @@ public class ConnectionManager {
 		}
 	}
 	
-
-
-
-//	public boolean sendStringArray(String[] sArray){
-//		try {
-//			SerializedStringArray ssArray = new SerializedStringArray(sArray);
-//			oos.writeInt(2);
-//			oos.writeObject(ssArray);
-//			oos.flush();
-//			oos.close();
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println(e.getMessage());
-//		}
-//		return false;
-//	}
+	public void sendFileRequest(String filename){
+		if (myKind == Kind.Client){
+			this.clientThread.sendFileRequest(filename);
+		}
+		
+		if (myKind == Kind.Server){
+			this.serverThread.sendFileRequest(filename);
+		}
+	}
+	
+	public String getReceivedFileName(){
+		if (myKind == Kind.Client){
+			return this.clientThread.receivedFileName;
+		}
+		
+		if (myKind == Kind.Server){
+			return this.serverThread.receivedFileName;
+		}
+		
+		return null;
+	}
 	
 
 	
