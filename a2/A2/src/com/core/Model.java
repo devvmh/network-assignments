@@ -99,10 +99,9 @@ public class Model {
 	
 	public void sendQuery(){
 		this.ui.updateUI_setSendQueryBnEnabled(false);
-		this.ui.updateUI_setProgressbar2Visible(true);
+		this.ui.updateUI_setProgressbar1Visible(true);
 		
 		
-		this.ui.updateUI_clearQueryResultList();
 		this.ipList.clear();
 		
 		(new QuerySender()).execute();
@@ -188,20 +187,21 @@ public class Model {
 		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-						
+			
+			ui.updateUI_clearMACList();
 			for (int i = 0; i < queryResultList.size(); i++){
 				if (queryResultList.get(i) != null){
 					String ip = queryResultList.get(i).lanIP;
 					ipList.add(ip);
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- " + ip);
+					ui.updateUI_addItemToMACList(macList.get(i)+ " -- " + ip);
 				} else {
 					ipList.add(null);
-					ui.updateUI_addItemToQueryResultList(macList.get(i)+ " -- Not found in BLS server.");
+					ui.updateUI_addItemToMACList(macList.get(i)+ " -- Not found in BLS server.");
 				}
 			}
 			
 			ui.updateUI_setSendQueryBnEnabled(true);
-			ui.updateUI_setProgressbar2Visible(false);
+			ui.updateUI_setProgressbar1Visible(false);
 		}
 	}
 	
@@ -267,11 +267,10 @@ public class Model {
             	// Add the name and address to an array adapter to show in a ListView
             	
             	if (!macList.contains(device.getAddress())){
-            		nameList.add(device.getName());
             		macList.add(device.getAddress());
             		Trace.logMessage("SCAN_DETECT: " + device.getAddress());
             	}
-            	ui.updateUI_addItemToMACList(device.getName() + " -- " + device.getAddress());
+            	ui.updateUI_addItemToMACList(device.getAddress());
             }
             if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
             	
