@@ -1,10 +1,14 @@
 package com.core;
 
+
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -20,6 +24,7 @@ public class Controller {
 	public SendFileListBnListener sendFileListBnListener;
 	public DisconnectBnListener disconnectBnListener;
 	public ServerMessageHandler serverMessageHandler;
+	public AlertDialogListener alertDialogListener;
 	
 	
 	
@@ -33,6 +38,7 @@ public class Controller {
 		this.sendFileListBnListener = new SendFileListBnListener();
 		this.disconnectBnListener = new DisconnectBnListener();
 		this.serverMessageHandler = new ServerMessageHandler();
+		this.alertDialogListener = new AlertDialogListener();
 	}
 	
 	
@@ -91,6 +97,17 @@ public class Controller {
 		}
 	}
 	
+	public class AlertDialogListener implements android.content.DialogInterface.OnClickListener{
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == Dialog.BUTTON_POSITIVE){
+				
+			} else {
+				
+			}
+			
+		}
+	}
+	
 	public class ServerMessageHandler extends Handler{
 		public void handleMessage(Message msg){
 			System.out.println(msg.what);
@@ -105,6 +122,8 @@ public class Controller {
 				break;
 			case 4:
 				model.sendFile();
+				break;
+			case 5:
 				break;
 				
 			case 99:
