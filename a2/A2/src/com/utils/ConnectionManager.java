@@ -30,9 +30,20 @@ public class ConnectionManager {
 	public void setHandler(Handler h){
 		this.handler = h;
 		
-		
+
 	}
-	
+
+
+	public void sendFileListRequest(){
+		if (myKind == Kind.Client){
+			this.clientThread.sendFileListRequest();
+		} else {
+			this.serverThread.sendFileListRequest();
+		}
+	}
+
+
+
 	public void sendFileList(String[] stringArray){
 		if (myKind == Kind.Client){
 			this.clientThread.sendFileList(stringArray);

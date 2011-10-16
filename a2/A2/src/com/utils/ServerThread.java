@@ -118,6 +118,15 @@ public class ServerThread extends Thread {
 		}
 	}
 	
+	public void sendFileListRequest(){
+		try {
+			oos.writeInt(3);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void clearInbox(){
 		this.receivedArray = null;
 	}

@@ -80,7 +80,7 @@ public class Controller {
 	
 	public class SendFileListBnListener implements OnClickListener{
 		public void onClick(View arg0) {
-			model.sendFileList();
+			model.sendFilelistRequest();
 		}
 		
 	}
@@ -101,6 +101,7 @@ public class Controller {
 				model.stringArrayArrived();
 				break;
 			case 3:
+				model.sendFileList();
 				break;
 			case 4:
 				break;

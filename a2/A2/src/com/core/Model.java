@@ -131,6 +131,10 @@ public class Model {
 		this.connectionManager.sendFileList(this.generateFileListArray());
 	}
 	
+	public void sendFilelistRequest(){
+		this.connectionManager.sendFileListRequest();
+	}
+	
 	
 	public void stringArrayArrived(){
 		this.fileArray = this.connectionManager.getReceivedArray();
@@ -163,10 +167,6 @@ public class Model {
 
 	
 	
-	public void pinged(){
-		this.ui.updateUI_setStatus("Pinged");
-		this.ui.updateUI_setSendFileListBnEnabled(true);
-	}
 	
 
 
@@ -199,7 +199,7 @@ public class Model {
 					ui.updateUI_addItemToMACList(macList.get(i)+ " -- Not found in BLS server.");
 				}
 			}
-			
+			ui.updateUI_enableipListClickListener();
 			ui.updateUI_setSendQueryBnEnabled(true);
 			ui.updateUI_setProgressbar1Visible(false);
 		}
@@ -256,6 +256,7 @@ public class Model {
 			}
 		}
 	}
+	
 	
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {

@@ -49,7 +49,7 @@ public class UI {
     	this.myMAC_TextView.setText("No mac");
     	this.myIP_TextView.setText("No ip");
     	this.sendBLSquery_Button.setText("Send BLS Query");
-    	this.sendFileList_Button.setText("Send My file list");
+    	this.sendFileList_Button.setText("Ask for File List");
     	
     	
     	
@@ -90,7 +90,6 @@ public class UI {
     public void setListeners(){
     	this.startscan_Button.setOnClickListener(this.controller.startScanListener);
     	this.sendBLSquery_Button.setOnClickListener(this.controller.blsQueryListener);
-    	this.macList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
     	this.fileList_ListView.setOnItemClickListener(this.controller.fileListClickListener);
     	this.serverState_Button.setOnCheckedChangeListener(this.controller.serverStateBnClickListener);
     	this.sendFileList_Button.setOnClickListener(this.controller.sendFileListBnListener);
@@ -123,8 +122,6 @@ public class UI {
     }
     
     
-    
-    
     public void updateUI_setProgressbar1Visible(boolean isVisible){
     	if (isVisible){
     		this.progressBar1.setVisibility(View.VISIBLE);
@@ -133,6 +130,9 @@ public class UI {
     	}
     }
     
+    public void updateUI_enableipListClickListener(){
+    	this.macList_ListView.setOnItemClickListener(this.controller.ipListClickListener);
+    }
     
     public void updateUI_setSendQueryBnEnabled(boolean enable){
     	this.sendBLSquery_Button.setEnabled(enable);
@@ -182,5 +182,7 @@ public class UI {
     	this.disconnect_Button.setEnabled(on);
     	this.sendFileList_Button.setEnabled(on);
     }
+    
+    
     
 }
