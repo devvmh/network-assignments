@@ -104,6 +104,7 @@ public class Controller {
 				model.sendFileList();
 				break;
 			case 4:
+				model.sendFile();
 				break;
 				
 			case 99:

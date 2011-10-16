@@ -20,7 +20,7 @@ public class ServerThread extends Thread {
 	
 	
 	public String[] receivedArray; 
-	
+	public String receivedFileName;
 	
 	
 	
@@ -65,7 +65,8 @@ public class ServerThread extends Thread {
 					break;
 				case 3:
 					break;
-				case 4:
+				case 4: // file request
+					receivedFileName = (String) ois.readUTF();
 					break;
 				case 999:
 					break;
@@ -121,6 +122,16 @@ public class ServerThread extends Thread {
 	public void sendFileListRequest(){
 		try {
 			oos.writeInt(3);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendFileRequest(String filename){
+		try {
+			oos.writeInt(4);
+			oos.writeUTF(filename);
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
