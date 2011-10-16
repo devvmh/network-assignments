@@ -1,7 +1,6 @@
 package com.core;
 
 import java.io.File;
-import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -37,9 +36,6 @@ public class Model {
 	
 	private String[] fileArray;
 	
-	private int connectedTo;
-	
-	private boolean serverIsOn;
 	
 	public Model(A2Activity act, UI u){
 		this.activity = act;
@@ -60,7 +56,6 @@ public class Model {
 		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		
 		this.connectionManager = new ConnectionManager();
-		this.serverIsOn = false;
 		
 		this.ui.updateUI_setMyMac(this.bluetoothAdapter.getAddress());
 		this.ui.updateUI_setMyip(this.getLocalIP());
@@ -165,8 +160,9 @@ public class Model {
 	
 	
 
-	
-	
+    public void unregisterReceiver(){
+    	this.activity.unregisterReceiver(receiver);
+    }
 	
 
 

@@ -30,6 +30,11 @@ public class A2Activity extends Activity {
         
     }
     
+	public void onDestroy() {
+		super.onDestroy();
+		this.model.unregisterReceiver();
+	}
+    
 
    
     
