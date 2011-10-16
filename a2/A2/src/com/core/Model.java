@@ -137,10 +137,15 @@ public class Model {
 		this.connectionManager.clearInbox();
 		
 		ui.updateUI_setStatus("File list received!");
+		
+		String forLogging = "";
 
 		for (int i = 0; i < fileArray.length; i++){
 			ui.updateUI_addItemToFileList(fileArray[i]);
+			forLogging += "\n\t" + fileArray[i];
 		}
+		
+		Trace.logMessage("FILE LIST: " + forLogging);
 	}
 	
 	
@@ -177,9 +182,12 @@ public class Model {
 	
 	public void fileReceived(){
 		ui.updateUI_setStatus("Saved file in /mnt/sdcard !");
+		ui.updateUI_vibrate();
 	}
 
-
+	public void sendFileRequestArrived(){
+		ui.updateUI_showAllowToTranserDialog();
+	}
 	
 
 
@@ -224,6 +232,7 @@ public class Model {
 		this.connectionManager.disconnect(isFromExternal);
 		this.ui.updateUI_setStatus("Disconnected.");
 		this.ui.updateUI_setConnectedMode(false);
+		this.ui.updateUI_clearFileList();
 	}
 	
 	

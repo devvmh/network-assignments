@@ -25,6 +25,7 @@ public class Controller {
 	public DisconnectBnListener disconnectBnListener;
 	public ServerMessageHandler serverMessageHandler;
 	public AlertDialogListener alertDialogListener;
+	public AllowToTransferDialogListener allowToTransferDialogListener;
 	
 	
 	
@@ -39,6 +40,7 @@ public class Controller {
 		this.disconnectBnListener = new DisconnectBnListener();
 		this.serverMessageHandler = new ServerMessageHandler();
 		this.alertDialogListener = new AlertDialogListener();
+		this.allowToTransferDialogListener = new AllowToTransferDialogListener();
 	}
 	
 	
@@ -106,6 +108,17 @@ public class Controller {
 		}
 	}
 	
+	
+	public class AllowToTransferDialogListener implements android.content.DialogInterface.OnClickListener{
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == Dialog.BUTTON_POSITIVE){
+				model.sendFile();
+			} 
+			
+		}
+	}
+	
+	
 	public class ServerMessageHandler extends Handler{
 		public void handleMessage(Message msg){
 			switch (msg.what){
@@ -118,7 +131,7 @@ public class Controller {
 				model.sendFileList();
 				break;
 			case 4:
-				model.sendFile();
+				model.sendFileRequestArrived();
 				break;
 			case 5:
 				model.fileReceived();
