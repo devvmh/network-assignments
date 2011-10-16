@@ -27,6 +27,7 @@
     <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/serverState_Button" android:textOff="Server Off" android:textOn="Server On"></ToggleButton>
     <TextView android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="status"></TextView>
 </LinearLayout>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Button" android:id="@+id/sendFileList_Button"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Disconnect" android:id="@+id/disconnect_Button"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/sendFileList_Button" android:text="send file list"></Button>
 <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/fileList_ListView"></ListView>
 </LinearLayout>
