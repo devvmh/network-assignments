@@ -1,8 +1,10 @@
 package com.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -58,6 +60,7 @@ public class ServerThread extends Thread {
 			
 			while (true){
 				int type = ois.readInt(); 
+				System.out.println("message type " + type);
 				switch (type){
 				case 2:
 					SerializedStringArray ssArray = (SerializedStringArray) ois.readObject();
@@ -67,6 +70,12 @@ public class ServerThread extends Thread {
 					break;
 				case 4: // file request
 					receivedFileName = (String) ois.readUTF();
+					break;
+				case 5:
+					String fileName = (String) ois.readUTF();
+					System.out.println("received filename:" + fileName);
+					SerializedFile sFile = (SerializedFile) ois.readObject();
+					sFile.saveFileTo("/mnt/sdcard/" + fileName);	
 					break;
 				case 999:
 					break;
@@ -140,6 +149,24 @@ public class ServerThread extends Thread {
 	
 	public void clearInbox(){
 		this.receivedArray = null;
+		this.receivedFileName = null;
+	}
+	
+	public void sendFile(String filePath){
+		try {
+			System.out.println("Entering sendFile()");
+			oos.writeInt(5);
+			String fileName = new File(filePath).getName();
+			oos.writeUTF(fileName);
+			SerializedFile sFile = new SerializedFile(filePath);
+			oos.writeObject(sFile);
+			oos.flush();
+			System.out.println("file flushed");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

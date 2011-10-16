@@ -35,6 +35,7 @@ public class Model {
 	private ConnectionManager connectionManager;
 	
 	private String[] fileArray;
+	private String selectedFile;
 	
 	
 	public Model(A2Activity act, UI u){
@@ -155,11 +156,12 @@ public class Model {
 	}
 	
 	public void selectFile(int i){
-		String seletedFile = fileArray[i];
-		
-		this.ui.updateUI_showAlertDialogText(seletedFile);
-		this.connectionManager.sendFileRequest(fileArray[i]);
-		
+		selectedFile = fileArray[i];
+		this.ui.updateUI_showAlertDialogText(selectedFile);
+	}
+	
+	public void confirmDownFileRequest(){
+		this.connectionManager.sendFileRequest(selectedFile);
 	}
 	
 	public void dismissAlertDialog(){
@@ -169,10 +171,14 @@ public class Model {
 	
 	public void sendFile(){
 		String filename = this.connectionManager.getReceivedFileName();
+		this.connectionManager.clearInbox();
 		System.out.println(filename);
+		this.connectionManager.sendFile(filename);
 	}
 	
-	
+	public void fileReceived(){
+		ui.updateUI_setStatus("Saved file in /mnt/sdcard !");
+	}
 
 
 	

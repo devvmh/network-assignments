@@ -130,6 +130,17 @@ public class ConnectionManager {
 		return null;
 	}
 	
+	public void sendFile(String filename){
+		if (myKind == Kind.Client){
+			this.clientThread.sendFile(filename);
+		}
+		
+		if (myKind == Kind.Server){
+			this.serverThread.sendFile(filename);
+		}
+		
+	}
+	
 
 	
 	
