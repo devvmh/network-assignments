@@ -100,17 +100,14 @@ public class Controller {
 	public class AlertDialogListener implements android.content.DialogInterface.OnClickListener{
 		public void onClick(DialogInterface dialog, int which) {
 			if (which == Dialog.BUTTON_POSITIVE){
-				
-			} else {
-				
-			}
+				model.confirmDownFileRequest();
+			} 
 			
 		}
 	}
 	
 	public class ServerMessageHandler extends Handler{
 		public void handleMessage(Message msg){
-			System.out.println(msg.what);
 			switch (msg.what){
 			case 1:
 				break;
@@ -124,6 +121,7 @@ public class Controller {
 				model.sendFile();
 				break;
 			case 5:
+				model.fileReceived();
 				break;
 				
 			case 99:
