@@ -1,11 +1,17 @@
 package com.core;
 
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class UI {
@@ -29,6 +35,8 @@ public class UI {
 	
 	private ArrayAdapter<String> macListArrayAdapter;
 	private ArrayAdapter<String> fileListArrayAdapter;
+	
+	private AlertDialog downloadDialog;
 	
 	
 	
@@ -68,6 +76,12 @@ public class UI {
     	
     	this.fileListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
     	this.fileList_ListView.setAdapter(fileListArrayAdapter);
+    	
+    	this.downloadDialog = new AlertDialog.Builder(activity)
+    	.setTitle("File Download")
+    	.setPositiveButton("Yes", this.controller.alertDialogListener)
+    	.setNegativeButton("No", this.controller.alertDialogListener)
+    	.create();
     	
     	
     }
@@ -181,6 +195,15 @@ public class UI {
     	this.serverState_Button.setEnabled(!on);
     	this.disconnect_Button.setEnabled(on);
     	this.sendFileList_Button.setEnabled(on);
+    }
+    
+    public void updateUI_showAlertDialogText(String fileName){
+    	this.downloadDialog.setMessage("Do you want to download\n" + fileName);
+    	this.downloadDialog.show();
+    }
+    
+    public void updateUI_dismissAlertDialog(){
+    	this.downloadDialog.dismiss();
     }
     
     

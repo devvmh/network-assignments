@@ -155,7 +155,15 @@ public class Model {
 	}
 	
 	public void selectFile(int i){
+		String seletedFile = fileArray[i];
+		
+		this.ui.updateUI_showAlertDialogText(seletedFile);
 		this.connectionManager.sendFileRequest(fileArray[i]);
+		
+	}
+	
+	public void dismissAlertDialog(){
+		this.ui.updateUI_dismissAlertDialog();
 	}
 	
 	
@@ -166,9 +174,7 @@ public class Model {
 	
 	
 
-    public void unregisterReceiver(){
-    	this.activity.unregisterReceiver(receiver);
-    }
+
 	
 
 
@@ -294,5 +300,9 @@ public class Model {
 
         }
     };
+    
+    public void unregisterReceiver(){
+    	this.activity.unregisterReceiver(receiver);
+    }
 	
 }
