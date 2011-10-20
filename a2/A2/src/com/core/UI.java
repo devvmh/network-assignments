@@ -207,7 +207,7 @@ public class UI {
     }
     
     public void updateUI_showAlertDialogText(String fileName){
-    	this.downloadDialog.setMessage("Do you want to download\n" + fileName);
+    	this.downloadDialog.setMessage("Do you want to download\n" + fileName + " ?");
     	this.downloadDialog.show();
     }
     
