@@ -1,0 +1,44 @@
+2011-10-20 06:37:49: SCAN_BEGIN
+2011-10-20 06:37:53: SCAN_DETECT: 38:E7:D8:46:6B:91
+2011-10-20 06:37:53: SCAN_DETECT: 38:E7:D8:46:70:7C
+2011-10-20 06:37:54: SCAN_DETECT: 38:E7:D8:46:79:44
+2011-10-20 06:37:59: SCAN_END
+2011-10-20 06:38:00: BLS_QUERY: 38:E7:D8:46:6B:91
+2011-10-20 06:38:01: BLS_REPLY: 1319061442, 192.168.1.100, 69.196.155.14
+2011-10-20 06:38:01: BLS_QUERY: 38:E7:D8:46:70:7C
+2011-10-20 06:38:01: BLS_REPLY: 1319061480, 192.168.1.105, 69.196.155.14
+2011-10-20 06:38:01: BLS_QUERY: 38:E7:D8:46:79:44
+2011-10-20 06:38:02: BLS_REPLY: 1318978513, 192.168.1.112, 69.196.155.14
+2011-10-20 06:38:06: CONNECT: 192.168.1.105, SUCCESS
+2011-10-20 06:38:11: FILE LIST: 
+	/mnt/sdcard/BLS.apk
+	/mnt/sdcard/b.txt
+	/mnt/sdcard/trace.txt
+	/mnt/sdcard/c.txt
+	/mnt/sdcard/a.txt
+	/mnt/sdcard/cache_vts_tran_GMM.m
+	/mnt/sdcard/testDocs/d.txt
+	/mnt/sdcard/testDocs/c.txt
+	/mnt/sdcard/testDocs/b.txt
+	/mnt/sdcard/testDocs/a.txt
+	/mnt/sdcard/d.txt
+	/mnt/sdcard/download/BLS.apk
+	/mnt/sdcard/wardrivingResults
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts_GMM.1
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts_GMM.0
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts_labl_GMM.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_r.0
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_rgts.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts_GMM.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_its_ter.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_vts_tran_GMM.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_its.m
+	/mnt/sdcard/Android/data/com.google.android.apps.maps/cache/cache_r.m
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/local-album-cachechunk_0
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/local-meta-cacheindex
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/local-album-cacheindex
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/picasa-thumbsindex
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/local-video-thumbsindex
+	/mnt/sdcard/Android/data/com.cooliris.media/cache/local-image-thumbsindex
+	/mnt/sdcard/Android/data/com.google.android.apps.genie.geniewidget.news-content-cache/.nomedia
