@@ -47,19 +47,16 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.control.destroy();
-		System.out.println("Destroy");
 	}
 	
 	protected void onResume() {
 		super.onResume();
 		this.control.onResume();
-		System.out.println("Resume");
 	}
 	
 	protected void onPause() {
 		super.onPause();
 		this.control.onPause();
-		System.out.println("Pause");
 	}
 	
 	

@@ -16,6 +16,8 @@ public class MainControl {
 	private LocationManager locationManager;
 	private String provider;
 	private CurLocationListener curLocationListener;
+	
+	private Thread timer;
 
 	public void setComponents(MainActivity act, MainModel m){
 		this.activity = act;
@@ -38,15 +40,34 @@ public class MainControl {
 		this.curLocationListener = new CurLocationListener();
 		
 		
+		//initialize the timer
+		timer = new Thread(){
+			public void run(){
+				while (true){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				model.sendBroadcastMessage();
+				}
+			}
+		};
+		
+		timer.start();
+		
+		//tell model to init
 		this.model.init();	
 	}
 	
 	public void onResume(){
 		locationManager.requestLocationUpdates(provider, 400, 1, this.curLocationListener);
+		model.onResume();
 	}
 	
 	public void onPause(){
 		locationManager.removeUpdates(this.curLocationListener);
+		model.onPause();
 	}
 	
 	
