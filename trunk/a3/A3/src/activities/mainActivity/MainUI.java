@@ -28,7 +28,6 @@ public class MainUI {
 	private TextView loading_TextView;
 	
 	private ListView userList_ListView;
-	private ArrayAdapter<String> userListArrayAdapter;
 	
 	public void setComponents(MainActivity act, MainControl ctrl){
 		this.activity = act;
@@ -42,8 +41,6 @@ public class MainUI {
 		this.progressBar1.setVisibility(View.INVISIBLE);
 		this.loading_TextView.setVisibility(View.INVISIBLE);
 		
-//		this.userListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-//		this.userList_ListView.setAdapter(userListArrayAdapter);
 	}
 
 	public void destroy() {
@@ -76,10 +73,10 @@ public class MainUI {
 	}
 	
 	public void updateUI_loadUserList(List<UserInfoObject> userInfoList){
-		String[] ids = {"img", "userid", "distance", "interests"};
-		int[] views = {R.id.img_ImageView, R.id.userid_TextView, R.id.distance_TextView, R.id.interests_TextView};
+		String[] from = {"img", "userid", "distance", "interests"};
+		int[] to = {R.id.img_ImageView, R.id.userid_TextView, R.id.distance_TextView, R.id.interests_TextView};
 		
-		SimpleAdapter userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, ids, views);
+		SimpleAdapter userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, from, to);
 		this.userList_ListView.setAdapter(userListAdapter);
 		
 	}
@@ -92,8 +89,8 @@ public class MainUI {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("img", R.drawable.icon);
 			map.put("userid", userInfoList.get(i).userid);
-			map.put("distance", userInfoList.get(i).latitude);
-			map.put("interests", userInfoList.get(i).interest);
+			map.put("distance", "is " + userInfoList.get(i).latitude + " meters away from you.");
+			map.put("interests", "\"" + userInfoList.get(i).interest + "\"");
 			list.add(map);
 		}
 		
