@@ -1,5 +1,7 @@
 package activities.mainActivity;
 
+import com.a3.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
@@ -7,6 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainControl {
@@ -15,7 +20,8 @@ public class MainControl {
 	
 	private LocationManager locationManager;
 	private String provider;
-	private CurLocationListener curLocationListener;
+	public CurLocationListener curLocationListener;
+	public ButtonListener buttonListener;
 	
 	private Thread timer;
 
@@ -39,7 +45,6 @@ public class MainControl {
 		}
 		this.curLocationListener = new CurLocationListener();
 		
-		
 		//initialize the timer
 		timer = new Thread(){
 			public void run(){
@@ -55,6 +60,10 @@ public class MainControl {
 		};
 		
 		timer.start();
+		
+		//initialize ButtonListener
+		this.buttonListener = new ButtonListener();
+		
 		
 		//tell model to init
 		this.model.init();	
@@ -76,7 +85,7 @@ public class MainControl {
 		this.model.destroy();
 	}
 	
-	public class CurLocationListener implements LocationListener{
+	private class CurLocationListener implements LocationListener{
 		public void onLocationChanged(Location location) {
 			model.setCurrentLocation(location.getLatitude(), location.getLongitude());
 		}
@@ -87,6 +96,12 @@ public class MainControl {
 			Toast.makeText(activity, "Enabled new provider " + provider, Toast.LENGTH_SHORT).show();
 		}
 		public void onStatusChanged(String provider, int status, Bundle extras) {}
+	}
+	
+	private class ButtonListener implements OnClickListener{
+		public void onClick(View v) {
+			model.refreshUserList();
+		}
 	}
 	
 	

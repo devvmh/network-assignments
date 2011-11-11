@@ -1,5 +1,7 @@
 package activities.mainActivity;
 
+import android.os.AsyncTask;
+
 
 public class MainModel {
 	private MainActivity activity;
@@ -33,6 +35,11 @@ public class MainModel {
 		}
 	}
 	
+	
+	public void refreshUserList(){
+		ui.updateUI_enableLoading(true);
+	}
+	
 	public void onResume(){
 		acceptTimerTask = true;
 	}
@@ -42,7 +49,21 @@ public class MainModel {
 	}
 	
 	
-	
+	private class HttpGetTask extends AsyncTask<String, Integer, String>{
+		protected void onPreExecute() {
+			super.onPreExecute();
+			
+		}
+
+		protected String doInBackground(String... arg0) {
+			return null;
+		}
+		
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+		}
+		
+	}
 	
 	
 	
