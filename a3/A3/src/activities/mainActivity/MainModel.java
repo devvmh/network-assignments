@@ -37,22 +37,16 @@ public class MainModel {
 	
 	
 	public void refreshUserList(){
-		ui.updateUI_enableLoading(true);
+		(new HttpGetTask()).execute();
 	}
 	
-	public void onResume(){
-		acceptTimerTask = true;
-	}
-	
-	public void onPause(){
-		acceptTimerTask = false;
-	}
+
 	
 	
 	private class HttpGetTask extends AsyncTask<String, Integer, String>{
 		protected void onPreExecute() {
 			super.onPreExecute();
-			
+			ui.updateUI_enableLoading(true);
 		}
 
 		protected String doInBackground(String... arg0) {
@@ -61,8 +55,19 @@ public class MainModel {
 		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			ui.updateUI_enableLoading(false);
 		}
 		
+	}
+	
+	
+	
+	public void onResume(){
+		acceptTimerTask = true;
+	}
+	
+	public void onPause(){
+		acceptTimerTask = false;
 	}
 	
 	
