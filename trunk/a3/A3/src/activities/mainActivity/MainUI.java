@@ -1,16 +1,21 @@
 package activities.mainActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import helperClasses.UserInfoObject;
 
 import com.a3.R;
 
+import android.app.LauncherActivity.ListItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
@@ -37,8 +42,8 @@ public class MainUI {
 		this.progressBar1.setVisibility(View.INVISIBLE);
 		this.loading_TextView.setVisibility(View.INVISIBLE);
 		
-		this.userListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
-		this.userList_ListView.setAdapter(userListArrayAdapter);
+//		this.userListArrayAdapter = new ArrayAdapter<String>(activity, R.layout.list_item);
+//		this.userList_ListView.setAdapter(userListArrayAdapter);
 	}
 
 	public void destroy() {
@@ -71,13 +76,28 @@ public class MainUI {
 	}
 	
 	public void updateUI_loadUserList(List<UserInfoObject> userInfoList){
+		String[] ids = {"img", "userid", "distance", "interests"};
+		int[] views = {R.id.img_ImageView, R.id.userid_TextView, R.id.distance_TextView, R.id.interests_TextView};
+		
+		SimpleAdapter userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, ids, views);
+		this.userList_ListView.setAdapter(userListAdapter);
+		
+	}
+	
+	
+	private List<Map<String, Object>> buildUserListView(List<UserInfoObject> userInfoList) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		
 		for (int i = 0; i < userInfoList.size(); i++){
-			UserInfoObject userInfo = userInfoList.get(i);
-			String s = userInfo.userid + '\n' 
-					+ userInfo.latitude + '\n'
-					+ userInfo.interest;
-			this.userListArrayAdapter.add(s);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("img", R.drawable.icon);
+			map.put("userid", userInfoList.get(i).userid);
+			map.put("distance", userInfoList.get(i).latitude);
+			map.put("interests", userInfoList.get(i).interest);
+			list.add(map);
 		}
+		
+		return list;
 	}
 
 }
