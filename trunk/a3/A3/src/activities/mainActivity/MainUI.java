@@ -35,9 +35,11 @@ public class MainUI {
 	
 	public void updateUI_enableLoading(boolean enable){
 		if (enable){
+			this.refresh_Button.setEnabled(false);
 			this.progressBar1.setVisibility(View.VISIBLE);
 			this.loading_TextView.setVisibility(View.VISIBLE);
 		} else {
+			this.refresh_Button.setEnabled(true);
 			this.progressBar1.setVisibility(View.INVISIBLE);
 			this.loading_TextView.setVisibility(View.INVISIBLE);
 		}
