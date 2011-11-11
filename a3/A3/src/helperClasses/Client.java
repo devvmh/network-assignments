@@ -73,9 +73,9 @@ public class Client {
 		String data = null;
 		try {
 			data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userInfoObject.userid, "UTF-8");
-			data += "&" + URLEncoder.encode("lat", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.latitude), "UTF-8");
-			data += "&" + URLEncoder.encode("long", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.longitude), "UTF-8");
-			data += "&" + URLEncoder.encode("string", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interest), "UTF-8");
+			data += "&" + URLEncoder.encode("latitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.latitude), "UTF-8");
+			data += "&" + URLEncoder.encode("longitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.longitude), "UTF-8");
+			data += "&" + URLEncoder.encode("interests", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interest), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
