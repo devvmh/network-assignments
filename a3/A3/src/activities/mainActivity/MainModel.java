@@ -1,5 +1,10 @@
 package activities.mainActivity;
 
+import helperClasses.UserInfoObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.AsyncTask;
 
 
@@ -38,6 +43,16 @@ public class MainModel {
 	
 	public void refreshUserList(){
 		(new HttpGetTask()).execute();
+		
+		//for testing
+		List<UserInfoObject> a = new ArrayList<UserInfoObject>();
+		UserInfoObject b = new UserInfoObject();
+		b.userid = "asdf";
+		b.latitude = 123;
+		b.longitude = 456;
+		b.interest = "swimming";
+		a.add(b);
+		ui.updateUI_loadUserList(a);
 	}
 	
 
