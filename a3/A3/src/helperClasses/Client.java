@@ -1,6 +1,14 @@
 package helperClasses;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -58,5 +66,41 @@ public class Client {
 	}
 	
 	
-	
+	//This is a blocking method
+	//Use Http post to send info of 1 user to server
+	public static void postUserInfo(UserInfoObject userInfoObject){
+		// Construct data
+		String data = null;
+		try {
+			data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userInfoObject.userid, "UTF-8");
+			data += "&" + URLEncoder.encode("lat", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.latitude), "UTF-8");
+			data += "&" + URLEncoder.encode("long", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.longitude), "UTF-8");
+			data += "&" + URLEncoder.encode("string", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interest), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+	    // Send data
+	    try {
+			URL url = new URL(Constants.URL);
+			URLConnection conn = url.openConnection();
+			conn.setDoOutput(true);
+			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+			wr.write(data);
+			wr.flush();
+			
+		    // Get the response
+		    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		    String line;
+		    while ((line = rd.readLine()) != null) {
+		        System.out.println(line);
+		    }
+		    wr.close();
+		    rd.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
