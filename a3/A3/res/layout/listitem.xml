@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical">
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="match_parent">
+        <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/img_ImageView"></ImageView>
+        <LinearLayout android:id="@+id/linearLayout2" android:layout_width="wrap_content" android:orientation="vertical" android:layout_height="wrap_content">
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/userid_TextView" android:text="Userid"></TextView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/distance_TextView" android:text="Distance"></TextView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/interests_TextView" android:text="Interests"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>

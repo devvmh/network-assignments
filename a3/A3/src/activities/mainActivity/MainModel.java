@@ -52,6 +52,12 @@ public class MainModel {
 		b.longitude = 456;
 		b.interest = "swimming";
 		a.add(b);
+		a.add(b);
+		a.add(b);
+		a.add(b);
+		a.add(b);
+		a.add(b);
+		a.add(b);
 		ui.updateUI_loadUserList(a);
 	}
 	
