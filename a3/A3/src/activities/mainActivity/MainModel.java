@@ -47,10 +47,14 @@ public class MainModel {
 		//for testing
 		List<UserInfoObject> a = new ArrayList<UserInfoObject>();
 		UserInfoObject b = new UserInfoObject();
-		b.userid = "asdf";
+		b.userid = "Justin Bieber";
 		b.latitude = 123;
 		b.longitude = 456;
-		b.interest = "swimming";
+		b.interest = "I swim like crazy";
+		a.add(b);
+		a.add(b);
+		a.add(b);
+		a.add(b);
 		a.add(b);
 		a.add(b);
 		a.add(b);
