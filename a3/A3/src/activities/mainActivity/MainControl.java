@@ -1,17 +1,19 @@
 package activities.mainActivity;
 
-import com.a3.R;
-
-import android.app.Activity;
+import helperClasses.Constants;
+import activities.firstRunActivity.FirstRunActivity;
+import activities.prefActivity.PrefActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainControl {
@@ -70,8 +72,9 @@ public class MainControl {
 	}
 	
 	public void onResume(){
-		locationManager.requestLocationUpdates(provider, 400, 1, this.curLocationListener);
-		model.onResume();
+   		locationManager.requestLocationUpdates(provider, 400, 1, this.curLocationListener);
+   		model.onResume();
+
 	}
 	
 	public void onPause(){

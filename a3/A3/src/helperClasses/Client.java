@@ -26,8 +26,16 @@ public class Client {
 	//This is a blocking method.
 	//Use Http Get to obtain a list of all users.
 	public static List<UserInfoObject> getUserInfoList(){
-		String uri = Constants.URL + "some variable";
-		HttpGet get = new HttpGet(uri);
+		String uri = Constants.URL;
+		HttpGet get = null;
+		int d = 0;
+		try {
+			get = new HttpGet(uri);
+			d = 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			d = 2;
+		}
 		HttpClient client = new DefaultHttpClient();
 		
 		HttpResponse response;
@@ -40,6 +48,7 @@ public class Client {
 	        if(response.getStatusLine().getStatusCode() == 200) 
 	        {
 	          result = EntityUtils.toString(response.getEntity());
+	          System.out.println(result);
 	        }
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
