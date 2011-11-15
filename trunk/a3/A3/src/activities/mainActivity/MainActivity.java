@@ -3,10 +3,15 @@ package activities.mainActivity;
 import com.a3.R;
 
 import activities.firstRunActivity.FirstRunActivity;
+import activities.prefActivity.PrefActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import helperClasses.Constants;
 
 public class MainActivity extends Activity {
@@ -18,16 +23,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        
-        SharedPreferences sp = getSharedPreferences(Constants.PREF_FILE, 0);
-        boolean isFirstRun = sp.getBoolean("isFirstRun", true);
-        if (isFirstRun){
-        	Intent intent = new Intent(this, FirstRunActivity.class);
-        	startActivity(intent);
-        }
-        
-        
+        setContentView(R.layout.main);      
         
         this.ui = new MainUI();
         this.model = new MainModel();
@@ -38,8 +34,6 @@ public class MainActivity extends Activity {
         this.control.setComponents(this, model);
         
         this.control.init();
-        
-        
     }
     
 	@Override
@@ -51,13 +45,34 @@ public class MainActivity extends Activity {
 	
 	protected void onResume() {
 		super.onResume();
-		this.control.onResume();
-	}
+		//get the interests string. If it's unset, send them to preferences to set it.
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    	String interests = sp.getString ("interests_string", "");
+    	if (interests.equals("")) {
+    		Intent intent = new Intent (this, PrefActivity.class);
+    		startActivity(intent);
+    	} else {
+    		this.control.onResume();
+    	}//if
+	}//onResume
 	
 	protected void onPause() {
 		super.onPause();
 		this.control.onPause();
 	}
 	
+	 @Override
+	 public boolean onCreateOptionsMenu(Menu menu) {
+		 MenuInflater inflater = getMenuInflater ();
+		 inflater.inflate(R.menu.main_menu, menu);
+	    	
+		 //prefs intent
+		 Intent prefsIntent = new Intent(this.getApplicationContext(),
+				 PrefActivity.class);
+		 MenuItem preferences = menu.findItem(R.id.settings_option_item);
+		 preferences.setIntent(prefsIntent);
+		 return true;
+	 }//onCreateOptionsMenu
+
 	
 }

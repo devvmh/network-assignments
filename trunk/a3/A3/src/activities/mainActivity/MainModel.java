@@ -1,5 +1,6 @@
 package activities.mainActivity;
 
+import helperClasses.Client;
 import helperClasses.UserInfoObject;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class MainModel {
 	private MainUI ui;
 	
 	private boolean acceptTimerTask;
+	protected List<UserInfoObject> userList;
 	
 	public void setComponents(MainActivity act, MainUI u){
 		this.activity = act;
@@ -36,37 +38,14 @@ public class MainModel {
 	
 	public void sendBroadcastMessage(){
 		if (acceptTimerTask == true){
-			System.out.println("i am here");
+//			System.out.println("i am here");
 		}
 	}
 	
 	
 	public void refreshUserList(){
 		(new HttpGetTask()).execute();
-		
-		//for testing
-		List<UserInfoObject> a = new ArrayList<UserInfoObject>();
-		UserInfoObject b = new UserInfoObject();
-		b.userid = "Justin Bieber";
-		b.latitude = 123;
-		b.longitude = 456;
-		b.interest = "I swim like crazy";
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		a.add(b);
-		ui.updateUI_loadUserList(a);
 	}
-	
-
-	
 	
 	private class HttpGetTask extends AsyncTask<String, Integer, String>{
 		protected void onPreExecute() {
@@ -75,12 +54,14 @@ public class MainModel {
 		}
 
 		protected String doInBackground(String... arg0) {
+			userList = Client.getUserInfoList ();
 			return null;
 		}
 		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			ui.updateUI_enableLoading(false);
+			ui.updateUI_loadUserList(userList);
 		}
 		
 	}
