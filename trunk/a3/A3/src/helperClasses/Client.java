@@ -21,21 +21,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 public class Client {
-	
-	
 	//This is a blocking method.
-	//Use Http Get to obtain a list of all users.
-	public static List<UserInfoObject> getUserInfoList(){
+	//Use Http Get to obtain a list of all users except yourself (the parameter)
+	public static List<UserInfoObject> getUserInfoList(UserInfoObject self){
 		String uri = Constants.URL;
-		HttpGet get = null;
-		int d = 0;
-		try {
-			get = new HttpGet(uri);
-			d = 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			d = 2;
-		}
+		HttpGet get = new HttpGet(uri);
 		HttpClient client = new DefaultHttpClient();
 		
 		HttpResponse response;
@@ -67,8 +57,10 @@ public class Client {
 			userInfoObject.userid = st.nextToken();
 			userInfoObject.latitude = Double.parseDouble(st.nextToken());
 			userInfoObject.longitude = Double.parseDouble(st.nextToken());
-			userInfoObject.interest = st.nextToken();
-			UserInfoList.add(userInfoObject);
+			userInfoObject.interests = st.nextToken();
+			if (! userInfoObject.equals(self)) {
+				UserInfoList.add(userInfoObject);
+			}//if
 		}
 		
 		return UserInfoList;
@@ -84,7 +76,7 @@ public class Client {
 			data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userInfoObject.userid, "UTF-8");
 			data += "&" + URLEncoder.encode("latitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.latitude), "UTF-8");
 			data += "&" + URLEncoder.encode("longitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.longitude), "UTF-8");
-			data += "&" + URLEncoder.encode("interests", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interest), "UTF-8");
+			data += "&" + URLEncoder.encode("interests", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interests), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -112,4 +104,34 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
+	
+	//this is a blocking method
+	//asks www.whatismyip.org what my external ip address is
+	public static String checkIP () {
+		String uri = Constants.IPServer;
+		HttpGet get = new HttpGet(uri);
+		HttpClient client = new DefaultHttpClient();
+		
+		HttpResponse response;
+		String result = null;
+		
+		//Try to query the server using GET
+		try {
+			response = client.execute(get);
+			
+			if(response.getStatusLine().getStatusCode() == 200) 
+			{
+				result = EntityUtils.toString(response.getEntity());
+				System.out.println(result);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}//try-catch
+		
+		return result;
+	}//checkIP
 }
