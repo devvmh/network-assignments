@@ -2,7 +2,6 @@ package activities.mainActivity;
 
 import com.a3.R;
 
-import activities.firstRunActivity.FirstRunActivity;
 import activities.prefActivity.PrefActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,14 +9,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import helperClasses.Constants;
 
 public class MainActivity extends Activity {
     
 	private MainUI ui;
-	private MainModel model;
+	protected MainModel model;
 	private MainControl control;
 	
     @Override
@@ -52,6 +48,7 @@ public class MainActivity extends Activity {
     		Intent intent = new Intent (this, PrefActivity.class);
     		startActivity(intent);
     	} else {
+    		this.model.setInterests (interests);
     		this.control.onResume();
     	}//if
 	}//onResume
@@ -63,15 +60,7 @@ public class MainActivity extends Activity {
 	
 	 @Override
 	 public boolean onCreateOptionsMenu(Menu menu) {
-		 MenuInflater inflater = getMenuInflater ();
-		 inflater.inflate(R.menu.main_menu, menu);
-	    	
-		 //prefs intent
-		 Intent prefsIntent = new Intent(this.getApplicationContext(),
-				 PrefActivity.class);
-		 MenuItem preferences = menu.findItem(R.id.settings_option_item);
-		 preferences.setIntent(prefsIntent);
-		 return true;
+		 return ui.createOptionsMenu (menu, getMenuInflater (), this.getApplicationContext());
 	 }//onCreateOptionsMenu
 
 	
