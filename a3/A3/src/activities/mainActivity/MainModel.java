@@ -2,12 +2,12 @@ package activities.mainActivity;
 
 import helperClasses.Client;
 import helperClasses.UserInfoObject;
+
 import java.util.List;
 
 import android.location.Location;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
 
 public class MainModel {
 	private MainActivity activity;
@@ -42,8 +42,12 @@ public class MainModel {
 		self.interests = i;
 	}
 	
-	public void setIP (String ip) {
-		self.userid = ip;
+	public void setIntIP (String ip) {
+		self.intIP = ip;
+	}
+	
+	public void setExtIP (String ip) {
+		self.extIP = ip;
 	}
 	
 	public float getDistance (UserInfoObject u) {
@@ -57,7 +61,7 @@ public class MainModel {
 	public void sendBroadcastMessage() {
 		if (self.hasNull ()) {
 			String message = "";
-			if (self.userid == null) {
+			if (self.intIP == null || self.extIP == null){
 				message += "Missing IP!\n";
 			}
 			if (self.longitude == null || self.latitude == null) {
@@ -91,6 +95,9 @@ public class MainModel {
 		
 		protected void onPostExecute(List<UserInfoObject> result) {
 			super.onPostExecute(result);
+			if (result == null) {
+				Toast.makeText (activity, "Problem communicating with server", Toast.LENGTH_LONG);
+			}//error check
 			ui.updateUI_enableLoading(false);
 			ui.updateUI_loadUserList(result);
 		}
@@ -106,16 +113,18 @@ public class MainModel {
 	
 	private class CheckIPTask extends AsyncTask<Void, Void, Void> {
 		protected Void doInBackground (Void... arg0) {
-			setIP (Client.checkIP ());
+			
+			setExtIP (Client.checkIP ());
+			setIntIP (Client.getLocalIPAddress ());
 			return null;
 		}//doInBackground
 	}//checkIPTask
 	
-	public void onResume(){
+	public void onResume() {
 		return;
 	}//onResume
 	
-	public void onPause(){
+	public void onPause() {
 		return;
 	}//onPause
 	

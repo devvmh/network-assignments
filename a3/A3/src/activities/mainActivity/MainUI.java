@@ -86,8 +86,8 @@ public class MainUI {
 			
 			userListAdapter = new SimpleAdapter (activity, noUsersList, R.layout.no_users_list, from, to);
 		} else {
-			String[] from = {"img", "userid", "distance", "interests"};
-			int[] to = {R.id.img_ImageView, R.id.userid_TextView, R.id.distance_TextView, R.id.interests_TextView};
+			String[] from = {"img", "distance", "interests"};
+			int[] to = {R.id.img_ImageView, R.id.distance_TextView, R.id.interests_TextView};
 			userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, from, to);
 		}//if
 		this.userList_ListView.setAdapter(userListAdapter);
@@ -100,9 +100,8 @@ public class MainUI {
 		for (int i = 0; i < userInfoList.size(); i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("img", R.drawable.icon);
-			map.put("userid", userInfoList.get(i).userid);
-			map.put("distance", "is " + activity.model.getDistance (userInfoList.get(i)) + " meters away from you.");
-			map.put("interests", "\"" + userInfoList.get(i).interests + "\"");
+			map.put("distance", "Distance: " + activity.model.getDistance (userInfoList.get(i)) + " meters away from you.");
+			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
 			list.add(map);
 		}
 		
