@@ -23,6 +23,7 @@
       			  android:screenOrientation="portrait" />
       	<activity android:name="activities.prefActivity.PrefActivity" />
       	<activity android:name="activities.contactListActivity.ContactListActivity" />
+      	<activity android:name="activities.inboxActivity.InboxActivity"></activity>
 
     </application>
 </manifest>

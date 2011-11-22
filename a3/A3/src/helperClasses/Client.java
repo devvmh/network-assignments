@@ -24,6 +24,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import activities.inboxActivity.InboxActivity;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+
 public class Client {
 	//This is a blocking method.
 	//Use Http Get to obtain a list of all users except yourself (the parameter)
@@ -170,5 +176,26 @@ public class Client {
 	        e.printStackTrace ();
 	    }
 	    return null;
+	}
+	
+	
+	public static void showMsgAlertDialog(final Activity currentActivity, String senderId){
+		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
+		builder.setTitle("Message Received")
+			   .setMessage(senderId + "sent you a text message.")
+		       .setPositiveButton("View", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		           	Intent intent = new Intent(currentActivity.getApplicationContext(), InboxActivity.class);
+		           	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		           	currentActivity.getApplicationContext().startActivity(intent);
+		           }
+		       })
+		       .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 }
