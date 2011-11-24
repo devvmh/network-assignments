@@ -1,7 +1,7 @@
 package activities.mainActivity;
 
 import helperClasses.Constants;
-import helperClasses.MessageHelper;
+import activities.inboxActivity.InboxHelper;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -104,7 +104,9 @@ public class MainControl {
 	
 	private class ButtonListener implements OnClickListener{
 		public void onClick(View v) {
-			model.refreshUserList();
+//			model.refreshUserList();
+			InboxHelper.addMessage(activity, "123", "456", "789");
+			InboxHelper.showViewMessageDialog(activity, "123");
 		}//onClick
 	}//ButtonListener class
 }//MainControl class

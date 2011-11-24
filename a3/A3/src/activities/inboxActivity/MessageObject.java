@@ -1,4 +1,4 @@
-package helperClasses;
+package activities.inboxActivity;
 
 import java.io.Serializable;
 

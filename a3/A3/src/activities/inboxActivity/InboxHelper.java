@@ -1,4 +1,6 @@
-package helperClasses;
+package activities.inboxActivity;
+
+import helperClasses.Constants;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,14 +10,13 @@ import java.io.ObjectOutputStream;
 
 import org.apache.commons.codec.binary.Base64;
 
-import activities.inboxActivity.InboxActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-public class MessageHelper {
+public class InboxHelper {
 	
 	// Trigger this method when a message is received from POST
 	public static void showViewMessageDialog(final Activity currentActivity, String senderId){
@@ -104,9 +105,9 @@ public class MessageHelper {
         
 	}
 	
-	public static void addMsgToInbox(Activity currentActivity, String from, String date, String message){
+	public static void addMessage(Activity currentActivity, String from, String date, String message){
 		
-		MessageListObject messageListObject = MessageHelper.getObject(currentActivity);
+		MessageListObject messageListObject = InboxHelper.getObject(currentActivity);
 		        
 		//Create a new MessageObject
 		MessageObject newMessage = new MessageObject();
@@ -116,7 +117,7 @@ public class MessageHelper {
 		
 		messageListObject.messageRecievedList.add(newMessage);
 		
-		MessageHelper.saveObject(currentActivity, messageListObject);
+		InboxHelper.saveObject(currentActivity, messageListObject);
 	}
 	
 	
