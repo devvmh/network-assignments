@@ -1,13 +1,11 @@
 package activities.inboxActivity;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import helperClasses.MessageHelper;
-import helperClasses.MessageListObject;
-import helperClasses.MessageObject;
 
 import com.a3.R;
 
@@ -34,7 +32,7 @@ public class InboxActivity extends Activity {
 
 
 	private void updateUI_refresh(){
-		this.messageListObject = MessageHelper.getObject(this);
+		this.messageListObject = InboxHelper.getObject(this);
 
 		SimpleAdapter userListAdapter = null;
 		if (messageListObject.messageRecievedList.isEmpty ()) {
