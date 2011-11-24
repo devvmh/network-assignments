@@ -79,7 +79,7 @@ public class MainModel {
 	
 	//get users with a GET, called by clicking the Refresh button
 	public void refreshUserList(){
-		(new HttpGetTask()).execute(self);
+//		(new HttpGetTask()).execute(self);
 	}
 	
 	private class HttpGetTask extends AsyncTask<UserInfoObject, Void, List<UserInfoObject>>{
