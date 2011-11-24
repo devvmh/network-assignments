@@ -104,8 +104,6 @@ public class MainControl {
 	
 	private class ButtonListener implements OnClickListener{
 		public void onClick(View v) {
-			MessageHelper.addMsgToInbox(activity, "user1", "date1", "message1");
-			MessageHelper.showViewMessageDialog(activity, "a user");
 			model.refreshUserList();
 		}//onClick
 	}//ButtonListener class
