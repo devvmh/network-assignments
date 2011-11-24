@@ -1,6 +1,7 @@
 package activities.mainActivity;
 
 import helperClasses.Constants;
+import helperClasses.MessageHelper;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -32,19 +33,6 @@ public class MainControl {
 	}
 	
 	public void init() {
-		//Initialize location utilities
-		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
-		provider = locationManager.getBestProvider(criteria, false);
-		Location location = locationManager.getLastKnownLocation(provider);		
-		if (location != null){
-			System.out.println("Provider is " + provider);
-			model.setCurrentLocation(location.getLatitude(), location.getLongitude());
-		} else {
-			System.out.println("location not availabe.");
-		}
-		this.curLocationListener = new CurLocationListener();	
-		
 		//send POST requests every Constants.upInt seconds if run method is called
 		handler = new Handler ();
 		POSTRunnable = new Runnable () {
@@ -67,6 +55,19 @@ public class MainControl {
 		
 		//tell model to init
 		this.model.init(POSTRunnable, checkIPRunnable);	
+		
+		//Initialize location utilities
+		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+		Criteria criteria = new Criteria();
+		provider = locationManager.getBestProvider(criteria, false);
+		Location location = locationManager.getLastKnownLocation(provider);		
+		if (location != null){
+			System.out.println("Provider is " + provider);
+			model.setCurrentLocation(location.getLatitude(), location.getLongitude());
+		} else {
+			System.out.println("location not availabe.");
+		}
+		this.curLocationListener = new CurLocationListener();
 	}
 	
 	public void onResume(){
@@ -103,6 +104,8 @@ public class MainControl {
 	
 	private class ButtonListener implements OnClickListener{
 		public void onClick(View v) {
+			MessageHelper.addMsgToInbox(activity, "user1", "date1", "message1");
+			MessageHelper.showViewMessageDialog(activity, "a user");
 			model.refreshUserList();
 		}//onClick
 	}//ButtonListener class

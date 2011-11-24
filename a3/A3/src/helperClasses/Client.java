@@ -179,23 +179,12 @@ public class Client {
 	}
 	
 	
-	public static void showMsgAlertDialog(final Activity currentActivity, String senderId){
-		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
-		builder.setTitle("Message Received")
-			   .setMessage(senderId + "sent you a text message.")
-		       .setPositiveButton("View", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		           	Intent intent = new Intent(currentActivity.getApplicationContext(), InboxActivity.class);
-		           	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		           	currentActivity.getApplicationContext().startActivity(intent);
-		           }
-		       })
-		       .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		                dialog.cancel();
-		           }
-		       });
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
+
+	
+	
+	
+	
+	
+	
+	
 }
