@@ -32,7 +32,7 @@ public class InboxActivity extends Activity {
 
 
 	private void updateUI_refresh(){
-		this.messageListObject = InboxHelper.getObject(this);
+		this.messageListObject = MessageHelper.getObject(this);
 
 		SimpleAdapter userListAdapter = null;
 		if (messageListObject.messageRecievedList.isEmpty ()) {

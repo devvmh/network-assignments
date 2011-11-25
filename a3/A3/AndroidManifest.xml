@@ -24,7 +24,7 @@
       	<activity android:name="activities.prefActivity.PrefActivity" />
       	<activity android:name="activities.contactListActivity.ContactListActivity" />
       	<activity android:name="activities.inboxActivity.InboxActivity"></activity>
-      	<activity android:name="activities.outboxActivity.OutboxActivity"></activity>
+      	<activity android:name="activities.inboxActivity.ComposeMessageActivity"></activity>
 
     </application>
 </manifest>
