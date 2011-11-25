@@ -8,7 +8,7 @@ public class Constants {
 	
 	public final static String MessageFile = "messageFile";
 	public final static String MessageListObjectBase64 = "messageTag";
-	public final static String FirstRunFlag = "firstRunFlag";
+	public final static String Userid = "userid";
 	
 	
 }//Constants class

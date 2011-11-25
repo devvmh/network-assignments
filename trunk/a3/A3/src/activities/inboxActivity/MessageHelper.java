@@ -16,7 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-public class InboxHelper {
+public class MessageHelper {
 	
 	// Trigger this method when a message is received from POST
 	public static void showViewMessageDialog(final Activity currentActivity, String senderId){
@@ -40,14 +40,15 @@ public class InboxHelper {
 	}
 	
 	// Trigger this method when click on someone on the contact list
-	public static void showSendMessageDialog(final Activity currentActivity, String senderId){
+	public static void showSendMessageDialog(final Activity currentActivity, final String receiverId){
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
 		builder.setTitle("Send new message")
-			   .setMessage(senderId + "sent you a text message.")
-		       .setPositiveButton("View", new DialogInterface.OnClickListener() {
+			   .setMessage("Send a text message to" + receiverId + " ?")
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
-		           	Intent intent = new Intent(currentActivity.getApplicationContext(), InboxActivity.class);
+		           	Intent intent = new Intent(currentActivity.getApplicationContext(), ComposeMessageActivity.class);
 		           	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		           	intent.putExtra(Constants.Userid, receiverId);
 		           	currentActivity.getApplicationContext().startActivity(intent);
 		           }
 		       })
@@ -107,7 +108,7 @@ public class InboxHelper {
 	
 	public static void addMessage(Activity currentActivity, String from, String date, String message){
 		
-		MessageListObject messageListObject = InboxHelper.getObject(currentActivity);
+		MessageListObject messageListObject = MessageHelper.getObject(currentActivity);
 		        
 		//Create a new MessageObject
 		MessageObject newMessage = new MessageObject();
@@ -117,7 +118,7 @@ public class InboxHelper {
 		
 		messageListObject.messageRecievedList.add(newMessage);
 		
-		InboxHelper.saveObject(currentActivity, messageListObject);
+		MessageHelper.saveObject(currentActivity, messageListObject);
 	}
 	
 	
