@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import activities.contactListActivity.ContactListActivity;
 import activities.prefActivity.PrefActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +117,13 @@ public class MainUI {
 				 PrefActivity.class);
 		 MenuItem preferences = menu.findItem(R.id.settings_option_item);
 		 preferences.setIntent(prefsIntent);
+		 
+		 //contact list intent
+		 Intent contactsIntent = new Intent (context,
+				 ContactListActivity.class);
+		 MenuItem contactlist = menu.findItem(R.id.contactlist_option_item);
+		 contactlist.setIntent(contactsIntent);
+		 
 		 return true;
 	}
 
