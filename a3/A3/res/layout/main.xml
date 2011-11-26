@@ -26,5 +26,5 @@
     <ListView 
     	android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
-    	android:id="@+id/userList_ListView"></ListView>
+    	android:id="@+id/userList_ListView" />
 </LinearLayout>
