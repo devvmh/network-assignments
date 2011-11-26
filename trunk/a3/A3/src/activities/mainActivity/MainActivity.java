@@ -1,7 +1,6 @@
 package activities.mainActivity;
 
-import com.a3.R;
-
+import activities.contactListActivity.DbAdapter;
 import activities.prefActivity.PrefActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +8,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ListView;
+
+import com.a3.R;
 
 public class MainActivity extends Activity {
     
@@ -62,6 +65,4 @@ public class MainActivity extends Activity {
 	 public boolean onCreateOptionsMenu(Menu menu) {
 		 return ui.createOptionsMenu (menu, getMenuInflater (), this.getApplicationContext());
 	 }//onCreateOptionsMenu
-
-	
 }

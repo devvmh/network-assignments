@@ -60,6 +60,7 @@ public class MainUI {
 	
 	private void setListeners(){
 		this.refresh_Button.setOnClickListener(control.buttonListener);
+		this.userList_ListView.setOnItemClickListener(control.listViewListener);
 	}//setListeners
 	
 	public void updateUI_enableLoading(boolean enable){
@@ -103,6 +104,10 @@ public class MainUI {
 			map.put("img", R.drawable.icon);
 			map.put("distance", "Distance: " + activity.model.getDistance (userInfoList.get(i)) + " meters away from you.");
 			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
+			map.put("longitude", userInfoList.get(i).longitude);
+			map.put("latitude", userInfoList.get(i).latitude);
+			map.put("external", userInfoList.get(i).extIP);
+			map.put("internal", userInfoList.get(i).intIP);
 			list.add(map);
 		}
 		

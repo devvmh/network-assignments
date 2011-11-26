@@ -3,8 +3,10 @@ package activities.mainActivity;
 import helperClasses.Client;
 import helperClasses.UserInfoObject;
 
+import java.util.HashMap;
 import java.util.List;
 
+import activities.contactListActivity.DbAdapter;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -119,6 +121,21 @@ public class MainModel {
 			return null;
 		}//doInBackground
 	}//checkIPTask
+	
+	//adds a contact to the database in ContactListActivity
+	public void updateContact (HashMap<String, Object> userMap) {
+		String longitude = ((Double) userMap.get("longitude")).toString ();
+		String latitude = ((Double) userMap.get("latitude")).toString ();
+		String internal = (String) userMap.get("internal");
+		String external = (String) userMap.get("external");
+		String interests = (String) userMap.get("interests");
+		
+		//adds to ContactListActivity's database
+		DbAdapter mDbHelper = new DbAdapter (activity);
+		mDbHelper.open ();
+		mDbHelper.addContact (internal, external, longitude, latitude, interests);
+		return;
+	}//updateContact
 	
 	public void onResume() {
 		return;

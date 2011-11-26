@@ -1,7 +1,7 @@
 package activities.mainActivity;
 
+import java.util.HashMap;
 import helperClasses.Constants;
-import activities.inboxActivity.MessageHelper;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MainControl {
 	private MainActivity activity;
@@ -22,6 +24,7 @@ public class MainControl {
 	public CurLocationListener curLocationListener;
 	
 	public ButtonListener buttonListener;
+	public ListViewListener listViewListener;
 	
 	protected Handler handler;
 	protected Runnable POSTRunnable;
@@ -50,8 +53,9 @@ public class MainControl {
 			}//run
 		};//checkIPRunnable
 		
-		//initialize ButtonListener
+		//initialize listeners
 		this.buttonListener = new ButtonListener();
+		this.listViewListener = new ListViewListener ();
 		
 		//tell model to init
 		this.model.init(POSTRunnable, checkIPRunnable);	
@@ -105,10 +109,14 @@ public class MainControl {
 	private class ButtonListener implements OnClickListener{
 		public void onClick(View v) {
 			model.refreshUserList();
-
-//			MessageHelper.showSendMessageDialog(activity, "asdf");
-//			MessageHelper.addMessage(activity, "123", "456", "789");
-//			MessageHelper.showViewMessageDialog(activity, "123");
 		}//onClick
 	}//ButtonListener class
+	
+	private class ListViewListener implements OnItemClickListener {
+		@SuppressWarnings("unchecked")
+		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+			//returns the map<String, Object> of the longitude, latitude, interests, and IPs
+			model.updateContact ((HashMap<String, Object>)a.getItemAtPosition(position));
+		}//onClick
+	}//ListViewListener class
 }//MainControl class
