@@ -52,9 +52,10 @@ public class InboxActivity extends Activity {
 
 		for (int i = 0; i < messageObjectList.size(); i++){
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("user", messageObjectList.get(i).from);
-			map.put("date", messageObjectList.get(i).date);
-			map.put("message", messageObjectList.get(i).message);
+			MessageObject curMessage = messageObjectList.get(i);
+			map.put("user", curMessage.senderInternal + "/" + curMessage.senderExternal);
+			map.put("date", curMessage.date);
+			map.put("message", curMessage.message);
 			list.add(map);
 		}
 		return list;

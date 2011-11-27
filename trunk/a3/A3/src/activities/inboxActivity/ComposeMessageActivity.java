@@ -1,6 +1,10 @@
 package activities.inboxActivity;
 
+import java.util.List;
+
+import helperClasses.Client;
 import helperClasses.Constants;
+import helperClasses.GlobalVariables;
 
 import com.a3.R;
 
@@ -19,12 +23,16 @@ public class ComposeMessageActivity extends Activity {
 	private Button send_Button;
 	private Button reset_Button;
 	
-	private String userid;
+	private String destInternal;
+	private String destExternal;
+	private Activity thisActiviy;
 	
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.composemessage);   
+        
+        thisActiviy = this;
         
         userid_TextView = (TextView) findViewById(R.id.userid_TextView);
         editMessage_Edittext = (EditText) findViewById(R.id.editMessage_EditText);
@@ -36,8 +44,9 @@ public class ComposeMessageActivity extends Activity {
         reset_Button.setOnClickListener(buttonListener);
         
         Bundle extras = getIntent().getExtras();
-        userid = extras.getString(Constants.Userid);
-        userid_TextView.setText(userid);
+        destInternal = extras.getString(Constants.DestInternal);
+        destExternal = extras.getString(Constants.DestExternal);
+        userid_TextView.setText(destInternal + "/" + destExternal);
         
     }
     
@@ -55,15 +64,29 @@ public class ComposeMessageActivity extends Activity {
 	}
 
 	private class PostMessageTask extends AsyncTask<String, Integer, String>{
+		private List<MessageObject> messageList;
+		
 		protected void onPreExecute() {
 			super.onPreExecute();
 			send_Button.setEnabled(false);
 		}
 		protected String doInBackground(String... arg0) {
+			String message = editMessage_Edittext.getText().toString();
+			
+			messageList = Client.postUserInfoWithMessage(GlobalVariables.self, destInternal, destExternal, message);
+
+			
 			return null;
 		}
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			if (messageList.size() != 0){
+				for (int i = 0; i < messageList.size(); i++){
+					MessageHelper.addMessage(thisActiviy, messageList.get(i));
+				}
+				MessageHelper.showViewMessageDialog(thisActiviy, "unknown");
+			}
+			
 			send_Button.setEnabled(true);
 			finish();
 		}

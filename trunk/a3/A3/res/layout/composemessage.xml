@@ -5,9 +5,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="match_parent">
-        <TextView android:text="To:" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/textView2" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="To: "></TextView>
         <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Userid" android:id="@+id/userid_TextView"></TextView>
     </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Message:"></TextView>
     <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/editMessage_EditText">
         <requestFocus></requestFocus>
     </EditText>
