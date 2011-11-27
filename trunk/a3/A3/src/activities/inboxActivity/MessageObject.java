@@ -2,7 +2,7 @@ package activities.inboxActivity;
 
 import java.io.Serializable;
 
-public class MessageObject implements Serializable{
+public class MessageObject implements Serializable{	
 	public String senderInternal = null;
 	public String senderExternal = null;
 	public String date = null;

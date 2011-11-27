@@ -54,13 +54,13 @@ public class DbAdapter {
      * Database creation SQL statement
      */
     private static final String DATABASE_CREATE =
-        "create table contacts2 (_id integer primary key autoincrement, "
+        "create table contacts (_id integer primary key autoincrement, "
         + "_iptuple text not null, _interests text not null, _longitude "
         + "text not null, _latitude text not null, _ttl time not null);";
 
     private static final String DATABASE_NAME = "data";
-    private static final String DATABASE_TABLE = "contacts2";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_TABLE = "contacts";
+    private static final int DATABASE_VERSION = 3;
 
     private final Context mCtx;
 
@@ -80,12 +80,12 @@ public class DbAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS contacts");
             onCreate(db);
         }
         
         public void deleteAll (SQLiteDatabase db) {
-        	db.execSQL ("DROP TABLE IF EXISTS notes");
+        	db.execSQL ("DROP TABLE IF EXISTS contacts");
         	onCreate (db);
         }
     }
@@ -125,18 +125,29 @@ public class DbAdapter {
     		String latitude, String interests) {
         ContentValues initialValues = new ContentValues();
         
+        //sanitize - replace " with '
+        if (interests.contains("\"")) {
+        	interests.replace ('"', '\'');
+        }
         String ipTuple = internal + "," + external;
-        initialValues.put (KEY_IPTUPLE, ipTuple);
-        initialValues.put(KEY_INTERESTS, "\'" + interests + "\'");
+        String time = ((Long)System.nanoTime ()).toString ();
+        
+        initialValues.put(KEY_IPTUPLE, "\"" + ipTuple + "\"");
+        initialValues.put(KEY_INTERESTS, "\"" + interests + "\"");
         initialValues.put(KEY_LONG, longitude);
         initialValues.put(KEY_LAT, latitude);
+        initialValues.put(KEY_TTL, time);
 
-       	return mDb.insert(DATABASE_TABLE, null, initialValues);
+        long retval;
+        retval = mDb.insert(DATABASE_TABLE, null, initialValues);
+        //if there's an error, try to update instead. -1 is error, all other values are success
+        if (retval == -1) {
+        	retval = mDb.update(DATABASE_TABLE, initialValues, "_iptuple", new String [] {ipTuple});
+        }
+        return retval;
     }//addContact
 
-    /**
-     * Delete the entry with the given IP addresses
-     */
+     //Delete the entry with the given IP addresses
     public boolean deleteNote(String internal, String external) {
     	String ipTuple = internal + "," + external;
         return mDb.delete(DATABASE_TABLE, KEY_IPTUPLE + "=" + ipTuple , null) > 0;
@@ -158,7 +169,7 @@ public class DbAdapter {
     public Cursor fetchAllNotes() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_IPTUPLE, KEY_LONG,
-                KEY_LAT, KEY_INTERESTS, KEY_ROWID}, null, null, null, null, null);
+                KEY_LAT, KEY_INTERESTS, KEY_TTL}, null, null, null, null, null);
     }
 
     /**

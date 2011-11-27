@@ -1,5 +1,6 @@
 package activities.mainActivity;
 
+import helperClasses.GlobalVariables;
 import helperClasses.UserInfoObject;
 
 import java.util.ArrayList;
@@ -88,22 +89,24 @@ public class MainUI {
 			
 			userListAdapter = new SimpleAdapter (activity, noUsersList, R.layout.no_users_list, from, to);
 		} else {
-			String[] from = {"img", "distance", "interests"};
+			String[] from = {"img", "distance", "Interests"};
 			int[] to = {R.id.img_ImageView, R.id.distance_TextView, R.id.interests_TextView};
 			userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, from, to);
 		}//if
 		this.userList_ListView.setAdapter(userListAdapter);
 	}//updateUI_loadUserList
 	
-	
 	private List<Map<String, Object>> buildUserListView(List<UserInfoObject> userInfoList) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		UserInfoObject self = GlobalVariables.self;
 		
 		for (int i = 0; i < userInfoList.size(); i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("img", R.drawable.icon);
-			map.put("distance", "Distance: " + activity.model.getDistance (userInfoList.get(i)) + " meters away from you.");
-			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
+			map.put("distance", "Distance: " + self.getDistance (userInfoList.get(i)) + " meters away from you.");
+			map.put("Interests", "Interests: " + userInfoList.get(i).interests + ".");
+			//for the contactListActivity
+			map.put("interests", userInfoList.get(i).interests);
 			map.put("longitude", userInfoList.get(i).longitude);
 			map.put("latitude", userInfoList.get(i).latitude);
 			map.put("external", userInfoList.get(i).extIP);

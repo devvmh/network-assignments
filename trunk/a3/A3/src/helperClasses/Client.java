@@ -13,7 +13,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -26,12 +25,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import activities.inboxActivity.InboxActivity;
 import activities.inboxActivity.MessageObject;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 
 public class Client {
 	//This is a blocking method.
@@ -76,10 +70,6 @@ public class Client {
 			userInfoObject.latitude = Double.parseDouble(st.nextToken());
 			userInfoObject.longitude = Double.parseDouble(st.nextToken());
 			userInfoObject.interests = st.nextToken();
-			UserInfoObject one = userInfoObject;
-			UserInfoObject two = self;
-			boolean three = userInfoObject.equals (self);
-			boolean four = (! userInfoObject.equals(self));
 			if (! userInfoObject.equals(self)) {
 				UserInfoList.add(userInfoObject);
 			}//if
@@ -212,14 +202,4 @@ public class Client {
 	    }
 	    return null;
 	}
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
 }

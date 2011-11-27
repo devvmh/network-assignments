@@ -7,18 +7,17 @@ import helperClasses.UserInfoObject;
 import java.util.HashMap;
 import java.util.List;
 
-import activities.contactListActivity.DbAdapter;
+import activities.contactListActivity.ContactListActivity;
+import android.content.Intent;
 import activities.inboxActivity.MessageHelper;
 import activities.inboxActivity.MessageObject;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class MainModel {
 	private MainActivity activity;
 	private MainUI ui;
-	
-	protected UserInfoObject self;
+	private UserInfoObject self;
 	
 	public void setComponents(MainActivity act, MainUI u){
 		this.activity = act;
@@ -26,9 +25,8 @@ public class MainModel {
 	}
 	
 	public void init(Runnable POSTRunnable, Runnable checkIPRunnable) {
-		self = new UserInfoObject ();
-		GlobalVariables.self = self; // ComposeMessageActivity will also need self to do a POST
-		
+		GlobalVariables.self = new UserInfoObject (); // ComposeMessageActivity will also need self to do a POST
+		self = GlobalVariables.self;
 		//keep posting data every interval seconds until onDestroy is called
 		//must be called after "self" is created
 		POSTRunnable.run ();
@@ -40,7 +38,7 @@ public class MainModel {
 	}
 	
 	public void setCurrentLocation(double lat, double lon){
-		self.latitude = lat;
+		GlobalVariables.self.latitude = lat;
 		self.longitude = lon;
 	}
 	
@@ -54,12 +52,6 @@ public class MainModel {
 	
 	public void setExtIP (String ip) {
 		self.extIP = ip;
-	}
-	
-	public float getDistance (UserInfoObject u) {
-		float [] dist = {0};
-		Location.distanceBetween(self.latitude, self.longitude, u.latitude, u.longitude, dist);
-		return dist [0];
 	}
 	
 	//sends a POST of your data to the server
@@ -147,9 +139,14 @@ public class MainModel {
 		String interests = (String) userMap.get("interests");
 		
 		//adds to ContactListActivity's database
-		DbAdapter mDbHelper = new DbAdapter (activity);
-		mDbHelper.open ();
-		mDbHelper.addContact (internal, external, longitude, latitude, interests);
+		Intent intent = new Intent (activity.getApplicationContext(),
+    	        ContactListActivity.class);
+		intent.putExtra("internal", internal);
+		intent.putExtra("external", external);
+		intent.putExtra("longitude", longitude);
+		intent.putExtra("latitude", latitude);
+		intent.putExtra("interests", interests);
+		activity.startActivity(intent);
 		return;
 	}//updateContact
 	

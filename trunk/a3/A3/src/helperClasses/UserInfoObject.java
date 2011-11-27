@@ -1,5 +1,7 @@
 package helperClasses;
 
+import android.location.Location;
+
 public class UserInfoObject {
 	public String intIP = null;
 	public String extIP = null;
@@ -22,5 +24,11 @@ public class UserInfoObject {
 				latitude.equals(u.latitude) &&
 				longitude.equals (u.longitude) &&
 				interests.equals (u.interests));
+	}
+	
+	public float getDistance (UserInfoObject u) {
+		float [] dist = {0};
+		Location.distanceBetween(this.latitude, this.longitude, u.latitude, u.longitude, dist);
+		return dist [0];
 	}
 }//UserInfoObject class
