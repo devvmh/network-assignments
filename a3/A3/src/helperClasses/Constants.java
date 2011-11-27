@@ -8,7 +8,8 @@ public class Constants {
 	
 	public final static String MessageFile = "messageFile";
 	public final static String MessageListObjectBase64 = "messageTag";
-	public final static String Userid = "userid";
+	public final static String DestInternal = "destinternal";
+	public final static String DestExternal = "destexternal";
 	
 	
 }//Constants class

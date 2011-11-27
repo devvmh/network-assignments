@@ -13,6 +13,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -25,6 +27,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import activities.inboxActivity.InboxActivity;
+import activities.inboxActivity.MessageObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -92,7 +95,7 @@ public class Client {
 	
 	//This is a blocking method
 	//Use Http post to send info of 1 user to server
-	public static void postUserInfo(UserInfoObject userInfoObject){
+	public static List<MessageObject> postUserInfo(UserInfoObject userInfoObject){
 		// Construct data
 		String data = null;
 		try {
@@ -105,7 +108,35 @@ public class Client {
 			e.printStackTrace();
 		}
 		
-	    // Send data
+	    // Send data, return the a list of message strings
+		return postString(data);
+	}
+	
+	public static List<MessageObject> postUserInfoWithMessage(UserInfoObject userInfoObject, String destInternal, String destExternal, String message){
+		// Construct data
+		String data = null;
+		try {
+			data = URLEncoder.encode("internal", "UTF-8") + "=" + URLEncoder.encode(userInfoObject.intIP, "UTF-8");
+			data += "&" + URLEncoder.encode ("external", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.extIP), "UTF-8");
+			data += "&" + URLEncoder.encode("latitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.latitude), "UTF-8");
+			data += "&" + URLEncoder.encode("longitude", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.longitude), "UTF-8");
+			data += "&" + URLEncoder.encode("interests", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(userInfoObject.interests), "UTF-8");
+			
+			//additional info for sending message
+			data += "&" + URLEncoder.encode("destInternal", "UTF-8") + "=" + URLEncoder.encode(destInternal, "UTF-8");
+			data += "&" + URLEncoder.encode("destExternal", "UTF-8") + "=" + URLEncoder.encode(destExternal, "UTF-8");
+			data += "&" + URLEncoder.encode("message", "UTF-8") + "=" + URLEncoder.encode(message, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+	    // Send data, return the a list of message strings
+		return postString(data);
+	}
+	
+	private static List<MessageObject> postString(String data){
+		List<MessageObject> messageList = new ArrayList<MessageObject>();
+		
 	    try {
 			URL url = new URL(Constants.URL);
 			URLConnection conn = url.openConnection();
@@ -116,10 +147,13 @@ public class Client {
 			
 		    // Get the response
 		    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		    String line;
-		    while ((line = rd.readLine()) != null) {
-		        System.out.println(line);
+		    int numMessage = Integer.parseInt(rd.readLine());
+		    for (int i = 0; i < numMessage; i++){
+		    	Date now = new Date();
+		    	MessageObject messageObject = new MessageObject(rd.readLine(), rd.readLine(), now.toGMTString(), rd.readLine());
+		    	messageList.add(messageObject);
 		    }
+		    
 		    wr.close();
 		    rd.close();
 		} catch (MalformedURLException e) {
@@ -127,6 +161,7 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	    return messageList;
 	}
 	
 	//this is a blocking method

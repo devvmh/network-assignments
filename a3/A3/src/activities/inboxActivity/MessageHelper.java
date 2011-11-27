@@ -22,7 +22,7 @@ public class MessageHelper {
 	public static void showViewMessageDialog(final Activity currentActivity, String senderId){
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
 		builder.setTitle("Message Received")
-			   .setMessage(senderId + "sent you a text message.")
+			   .setMessage(senderId + " sent you a text message.")
 		       .setPositiveButton("View", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		           	Intent intent = new Intent(currentActivity.getApplicationContext(), InboxActivity.class);
@@ -40,15 +40,16 @@ public class MessageHelper {
 	}
 	
 	// Trigger this method when click on someone on the contact list
-	public static void showSendMessageDialog(final Activity currentActivity, final String receiverId){
+	public static void showSendMessageDialog(final Activity currentActivity, final String destInternal, final String destExternal){
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
 		builder.setTitle("Send new message")
-			   .setMessage("Send a text message to" + receiverId + " ?")
+			   .setMessage("Send a text message to " + destInternal + "/" + destExternal + " ?")
 		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		           	Intent intent = new Intent(currentActivity.getApplicationContext(), ComposeMessageActivity.class);
 		           	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		           	intent.putExtra(Constants.Userid, receiverId);
+		           	intent.putExtra(Constants.DestInternal, destInternal);
+		           	intent.putExtra(Constants.DestExternal, destExternal);
 		           	currentActivity.getApplicationContext().startActivity(intent);
 		           }
 		       })
@@ -106,17 +107,11 @@ public class MessageHelper {
         
 	}
 	
-	public static void addMessage(Activity currentActivity, String from, String date, String message){
+	public static void addMessage(Activity currentActivity, MessageObject messageObject){
 		
 		MessageListObject messageListObject = MessageHelper.getObject(currentActivity);
-		        
-		//Create a new MessageObject
-		MessageObject newMessage = new MessageObject();
-		newMessage.from = from;
-		newMessage.date = date;
-		newMessage.message = message;
 		
-		messageListObject.messageRecievedList.add(newMessage);
+		messageListObject.messageRecievedList.add(messageObject);
 		
 		MessageHelper.saveObject(currentActivity, messageListObject);
 	}
