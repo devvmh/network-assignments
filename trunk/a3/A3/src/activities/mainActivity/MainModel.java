@@ -1,12 +1,15 @@
 package activities.mainActivity;
 
 import helperClasses.Client;
+import helperClasses.GlobalVariables;
 import helperClasses.UserInfoObject;
 
 import java.util.HashMap;
 import java.util.List;
 
 import activities.contactListActivity.DbAdapter;
+import activities.inboxActivity.MessageHelper;
+import activities.inboxActivity.MessageObject;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ public class MainModel {
 	
 	public void init(Runnable POSTRunnable, Runnable checkIPRunnable) {
 		self = new UserInfoObject ();
+		GlobalVariables.self = self; // ComposeMessageActivity will also need self to do a POST
 		
 		//keep posting data every interval seconds until onDestroy is called
 		//must be called after "self" is created
@@ -106,11 +110,23 @@ public class MainModel {
 	}//HttpGetTask
 	
 	private class HttpPostTask extends AsyncTask<UserInfoObject, Void, Void> {
+		List<MessageObject> messageList;
 		protected Void doInBackground (UserInfoObject... arg0) {
 			UserInfoObject self = arg0 [0];
-			Client.postUserInfo(self);
+			messageList = Client.postUserInfo(self);
 			return null;
 		}//doInBackground
+		
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			if (messageList.size() != 0){
+				for (int i = 0; i < messageList.size(); i++){
+					MessageHelper.addMessage(activity, messageList.get(i));
+				}
+				MessageHelper.showViewMessageDialog(activity, "internal/external");
+			}
+		}
+		
 	}//HttpPostTask
 	
 	private class CheckIPTask extends AsyncTask<Void, Void, Void> {
