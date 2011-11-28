@@ -73,7 +73,7 @@ public class ContactListActivity extends Activity {
         Cursor cursor = mDbHelper.fetchAllNotes();
         startManagingCursor(cursor);
         long currentTime = System.nanoTime ();
-        final long DAY = 1000 * 60 * 60 * 24;
+        final long DAY = 60000;//1000 * 60 * 60 * 24;
         
         //this gigantic for loop turns the database entries into a contact list
         //the contact list should remain fairly small as entries are purged after 24 hours
@@ -88,7 +88,7 @@ public class ContactListActivity extends Activity {
         	long entryTime = Long.parseLong(cursor.getString(cursor.getColumnIndex("_ttl")));
         	if (entryTime + DAY > currentTime) {
         		//entries expire after a day
-        		mDbHelper.deleteNote(internal, external);
+        		mDbHelper.deleteContact(internal, external);
         		continue;
         	}
         	
@@ -97,13 +97,14 @@ public class ContactListActivity extends Activity {
         	String interests = cursor.getString(cursor.getColumnIndex ("_interests"));
         	
         	UserInfoObject userInfoObject = new UserInfoObject();
-        	userInfoObject.intIP = internal;
-			userInfoObject.extIP = external;
 			userInfoObject.latitude = Double.parseDouble (lat);
 			userInfoObject.longitude = Double.parseDouble(lon);
 
-			//shave off the quotations around interests
-			userInfoObject.interests = interests.substring(1, interests.length () - 1);
+			//shave off the quotation marks
+			userInfoObject.interests = interests;//.substring(1, interests.length () - 1);
+        	userInfoObject.intIP = internal;//.substring(1, internal.length ());
+			userInfoObject.extIP = external;//.substring(0, external.length () - 1);
+			
 			userInfoList.add(userInfoObject);
         }//iterate over all rows
 
