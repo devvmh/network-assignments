@@ -8,10 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import activities.contactListActivity.ContactListActivity;
-import android.content.Intent;
 import activities.inboxActivity.MessageHelper;
 import activities.inboxActivity.MessageObject;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.AdapterView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 public class MainModel {
@@ -130,31 +132,38 @@ public class MainModel {
 		}//doInBackground
 	}//checkIPTask
 	
-	//adds a contact to the database in ContactListActivity
-	public void updateContact (HashMap<String, Object> userMap) {
-		String longitude = ((Double) userMap.get("longitude")).toString ();
-		String latitude = ((Double) userMap.get("latitude")).toString ();
-		String internal = (String) userMap.get("internal");
-		String external = (String) userMap.get("external");
-		String interests = (String) userMap.get("interests");
+	//called when you click a user in the main listView
+	@SuppressWarnings("unchecked")
+	public void sendMessage (AdapterView<?> a, int position) {
+		//get the user's info
+		SimpleAdapter adapter = (SimpleAdapter) a.getAdapter();
+		HashMap<String,Object> map = (HashMap<String,Object>) adapter.getItem(position);
+		String destExternal = map.get("external").toString ();
+		String destInternal = map.get("internal").toString ();
+		String longitude = map.get("longitude").toString ();
+		String latitude = map.get("latitude").toString ();
+		String interests = map.get("interests").toString ();
 		
-		//adds to ContactListActivity's database
-		Intent intent = new Intent (activity.getApplicationContext(),
-    	        ContactListActivity.class);
-		intent.putExtra("internal", internal);
-		intent.putExtra("external", external);
-		intent.putExtra("longitude", longitude);
-		intent.putExtra("latitude", latitude);
-		intent.putExtra("interests", interests);
-		activity.startActivity(intent);
-		return;
-	}//updateContact
+		//send the message
+		MessageHelper.showSendMessageDialog(activity, destInternal, destExternal);
+		
+        //adds to ContactListActivity's database
+        Intent intent = new Intent (activity.getApplicationContext(),
+                ContactListActivity.class);
+        intent.putExtra("internal", destInternal);
+        intent.putExtra("external", destExternal);
+        intent.putExtra("longitude", longitude);
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("interests", interests);
+        activity.startActivity(intent);
+		
+	}//sendMessage
 	
-	public void onResume() {
+	public void onResume () {
 		return;
 	}//onResume
 	
-	public void onPause() {
+	public void onPause () {
 		return;
 	}//onPause
 	

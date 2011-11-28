@@ -10,25 +10,33 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.a3.R;
 
 public class ContactListActivity extends Activity {
 	private DbAdapter mDbHelper;
 	private ListView listView;
+	private ListViewListener listViewListener;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
         setContentView(R.layout.contactlist);
+        
         mDbHelper = new DbAdapter(this);
         mDbHelper.open();
         
         listView = (ListView) findViewById(R.id.contactListView);
+        listViewListener = new ListViewListener ();
+		this.listView.setOnItemClickListener(listViewListener);
 	}//onCreate
 	
 	@Override
@@ -36,14 +44,6 @@ public class ContactListActivity extends Activity {
 		super.onDestroy ();
 		mDbHelper.close ();
 	}//onDestroy
-	
-	public void addContact (String internal, String external, String longitude, String latitude,
-			String interests) {
-		DbAdapter mDbHelper = new DbAdapter (this);
-		mDbHelper.open ();
-		
-		mDbHelper.addContact (internal, external, longitude, latitude, interests);
-	}
 	
 	@Override
 	public void onResume () {
@@ -122,7 +122,8 @@ public class ContactListActivity extends Activity {
 			
 			userListAdapter = new SimpleAdapter (this, noUsersList, R.layout.no_users_list, from, to);
 		} else {
-			String[] from = {"img", "distance", "interests"};
+			String[] from = {"img", "distance", "I" +
+					"nterests"};
 			int[] to = {R.id.img_ImageView, R.id.distance_TextView, R.id.interests_TextView};
 			userListAdapter = new SimpleAdapter(this, buildUserListView(userInfoList), R.layout.listitem, from, to);
 		}//if
@@ -138,10 +139,45 @@ public class ContactListActivity extends Activity {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("img", R.drawable.icon);
 			map.put("distance", "Distance: " + self.getDistance (userInfoList.get(i)) + " meters away from you.");
-			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
+			map.put("Interests", "Interests: " + userInfoList.get(i).interests + ".");
+			
+			//for the contactListActivity
+			map.put("interests", userInfoList.get(i).interests);
+			map.put("longitude", userInfoList.get(i).longitude);
+			map.put("latitude", userInfoList.get(i).latitude);
+			map.put("external", userInfoList.get(i).extIP);
+			map.put("internal", userInfoList.get(i).intIP);
 			list.add(map);
 		}
 		
 		return list;
 	}
+	
+	//adds a contact to the database in ContactListActivity
+	public void updateContact (HashMap<String, Object> userMap) {
+		String longitude = ((Double) userMap.get("longitude")).toString ();
+		String latitude = ((Double) userMap.get("latitude")).toString ();
+		String internal = (String) userMap.get("internal");
+		String external = (String) userMap.get("external");
+		String interests = (String) userMap.get("interests");
+		
+		//adds to ContactListActivity's database
+		Intent intent = new Intent (getApplicationContext(),
+				ContactListActivity.class);
+		intent.putExtra("internal", internal);
+		intent.putExtra("external", external);
+		intent.putExtra("longitude", longitude);
+		intent.putExtra("latitude", latitude);
+		intent.putExtra("interests", interests);
+		startActivity(intent);
+		return;
+	}//updateContact
+	
+	private class ListViewListener implements OnItemClickListener {
+		@SuppressWarnings("unchecked")
+		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+			//returns the map<String, Object> of the longitude, latitude, interests, and IPs
+			updateContact ((HashMap<String, Object>)a.getItemAtPosition(position));
+		}//onClick
+	}//ListViewListener class
 }//ContactListActivity

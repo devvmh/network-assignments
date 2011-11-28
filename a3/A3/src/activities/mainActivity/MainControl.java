@@ -1,7 +1,7 @@
 package activities.mainActivity;
 
-import java.util.HashMap;
 import helperClasses.Constants;
+
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -113,10 +113,11 @@ public class MainControl {
 	}//ButtonListener class
 	
 	private class ListViewListener implements OnItemClickListener {
-		@SuppressWarnings("unchecked")
+
+		@Override
 		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-			//returns the map<String, Object> of the longitude, latitude, interests, and IPs
-			model.updateContact ((HashMap<String, Object>)a.getItemAtPosition(position));
-		}//onClick
+			//user to send to identified by these two parameters
+			model.sendMessage (a, position);
+		}
 	}//ListViewListener class
 }//MainControl class
