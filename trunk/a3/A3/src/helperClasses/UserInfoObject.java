@@ -1,8 +1,11 @@
 package helperClasses;
 
+import java.util.List;
+import java.util.Collections;
+
 import android.location.Location;
 
-public class UserInfoObject {
+public class UserInfoObject implements Comparable<UserInfoObject> {
 	public String intIP = null;
 	public String extIP = null;
 	public Double latitude = new Double (0);
@@ -30,5 +33,23 @@ public class UserInfoObject {
 		float [] dist = {0};
 		Location.distanceBetween(this.latitude, this.longitude, u.latitude, u.longitude, dist);
 		return dist [0];
+	}
+	
+	public static void sort (List<UserInfoObject> lst) {
+		Collections.sort(lst);
+	}
+
+	//for sorting
+	@Override
+	public int compareTo(UserInfoObject u) {
+		UserInfoObject user = GlobalVariables.self;
+		float [] distArray = {0};
+		Location.distanceBetween(user.latitude, user.longitude, this.latitude, this.longitude, distArray);
+		float myDistanceToUser = distArray [0];
+		
+		Location.distanceBetween (user.latitude, user.longitude, u.latitude, u.longitude, distArray);
+		float theirDistanceToUser = distArray [0];
+		
+		return (int) (myDistanceToUser - theirDistanceToUser);
 	}
 }//UserInfoObject class
