@@ -124,7 +124,7 @@ public class MainControl {
 		}//onClick
 	}//PostButtonListener class
 	
-	private class ListViewListener implements OnItemClickListener {
+	public class ListViewListener implements OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
