@@ -107,12 +107,14 @@ public class MessageHelper {
 	}
 	
 	public static void addMessage(Activity currentActivity, MessageObject messageObject){
-		
 		MessageListObject messageListObject = MessageHelper.getObject(currentActivity);
-		
 		messageListObject.messageRecievedList.add(messageObject);
-		
 		MessageHelper.saveObject(currentActivity, messageListObject);
+	}
+	
+	public static void clearMessages (Activity currentActivity) {
+		MessageListObject messageListObject = new MessageListObject ();
+		MessageHelper.saveObject (currentActivity, messageListObject);
 	}
 	
 	
