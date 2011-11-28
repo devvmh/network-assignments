@@ -32,7 +32,6 @@ public class MainUI {
 	private Button refresh_Button;
 	private ProgressBar progressBar1;
 	private TextView loading_TextView;
-	
 	private ListView userList_ListView;
 	
 	public void setComponents(MainActivity act, MainControl ctrl){
@@ -89,7 +88,7 @@ public class MainUI {
 			
 			userListAdapter = new SimpleAdapter (activity, noUsersList, R.layout.no_users_list, from, to);
 		} else {
-			String[] from = {"img", "distance", "Interests"};
+			String[] from = {"img", "distance", "interests"};
 			int[] to = {R.id.img_ImageView, R.id.distance_TextView, R.id.interests_TextView};
 			userListAdapter = new SimpleAdapter(activity, buildUserListView(userInfoList), R.layout.listitem, from, to);
 		}//if
@@ -104,8 +103,9 @@ public class MainUI {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("img", R.drawable.icon);
 			map.put("distance", "Distance: " + self.getDistance (userInfoList.get(i)) + " meters away from you.");
-			map.put("Interests", "Interests: " + userInfoList.get(i).interests + ".");
-			//for the contactListActivity
+			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
+			
+			//so we can send messages if we click on the user - won't be visible
 			map.put("interests", userInfoList.get(i).interests);
 			map.put("longitude", userInfoList.get(i).longitude);
 			map.put("latitude", userInfoList.get(i).latitude);
@@ -113,7 +113,6 @@ public class MainUI {
 			map.put("internal", userInfoList.get(i).intIP);
 			list.add(map);
 		}
-		
 		return list;
 	}
 	
@@ -131,7 +130,6 @@ public class MainUI {
 				 ContactListActivity.class);
 		 MenuItem contactlist = menu.findItem(R.id.contactlist_option_item);
 		 contactlist.setIntent(contactsIntent);
-		 
 		 return true;
 	}
 

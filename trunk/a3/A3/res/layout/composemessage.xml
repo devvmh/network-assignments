@@ -4,15 +4,42 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="match_parent">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="To: "></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Userid" android:id="@+id/userid_TextView"></TextView>
+    <LinearLayout 
+    	android:id="@+id/linearLayout1" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="match_parent">
+        <TextView 
+        	android:textAppearance="?android:attr/textAppearanceLarge" 
+        	android:layout_height="wrap_content" 
+        	android:layout_width="wrap_content" 
+        	android:text="To: " />
+        <TextView 
+        	android:textAppearance="?android:attr/textAppearanceLarge" 
+        	android:layout_height="wrap_content" 
+        	android:layout_width="wrap_content" 
+        	android:text="Userid" 
+        	android:id="@+id/userid_TextView" />
     </LinearLayout>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Message:"></TextView>
-    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/editMessage_EditText">
+    <TextView 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:text="Message:" />
+    <EditText 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="match_parent" 
+    	android:id="@+id/editMessage_EditText">
         <requestFocus></requestFocus>
     </EditText>
-    <Button android:layout_gravity="center" android:layout_height="wrap_content" android:text="Send" android:layout_width="90dp" android:id="@+id/send_Button"></Button>
-    <Button android:layout_gravity="center" android:layout_height="wrap_content" android:text="Reset" android:layout_width="90dp" android:id="@+id/reset_Button"></Button>
-    
+    <Button 
+    	android:layout_gravity="center" 
+    	android:layout_height="wrap_content" 
+    	android:text="Send" 
+    	android:layout_width="90dp" 
+    	android:id="@+id/send_Button" />
+    <Button 
+    	android:layout_gravity="center" 
+    	android:layout_height="wrap_content" 
+    	android:text="Reset" 
+    	android:layout_width="90dp" 
+    	android:id="@+id/reset_Button" />
 </LinearLayout>

@@ -1,12 +1,10 @@
 package activities.inboxActivity;
 
-import java.util.List;
-
 import helperClasses.Client;
 import helperClasses.Constants;
 import helperClasses.GlobalVariables;
 
-import com.a3.R;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -16,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.a3.R;
 
 public class ComposeMessageActivity extends Activity {
 	private TextView userid_TextView;
@@ -59,9 +59,9 @@ public class ComposeMessageActivity extends Activity {
 			case R.id.reset_Button:
 				editMessage_Edittext.setText("");
 				break;
-			}
-		}
-	}
+			}//switch
+		}//onClick
+	}//ButtonListener
 
 	private class PostMessageTask extends AsyncTask<String, Integer, String>{
 		private List<MessageObject> messageList;
@@ -69,7 +69,8 @@ public class ComposeMessageActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			send_Button.setEnabled(false);
-		}
+		}//onPreExecute
+		
 		protected String doInBackground(String... arg0) {
 			String message = editMessage_Edittext.getText().toString();
 			
@@ -77,7 +78,8 @@ public class ComposeMessageActivity extends Activity {
 
 			
 			return null;
-		}
+		}//doInBackground
+		
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (messageList.size() != 0){
@@ -89,8 +91,6 @@ public class ComposeMessageActivity extends Activity {
 			
 			send_Button.setEnabled(true);
 			finish();
-		}
-	}
-
-
-}
+		}//onPostExecute
+	}//PostMessageTask
+}//ComposeMessageActivity
