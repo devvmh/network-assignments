@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import activities.contactListActivity.ContactListActivity;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -85,21 +83,20 @@ public class InboxActivity extends Activity {
 		 return true;
 	 }//onCreateOptionsMenu
 	 
-		public class ListViewListener implements OnItemClickListener {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-				//get the user's info
-				SimpleAdapter adapter = (SimpleAdapter) a.getAdapter();
-				HashMap<String,Object> map = (HashMap<String,Object>) adapter.getItem(position);
-				String ipTuple = map.get("user").toString ();
-				int slash = ipTuple.indexOf('/');
-				String destInternal = ipTuple.substring(0,slash);
-				String destExternal = ipTuple.substring(slash+1, ipTuple.length());
-				
-				//send the message
-				MessageHelper.showSendMessageDialog(InboxActivity.this, destInternal, destExternal);
-			}
-		}//ListViewListener class
-}
+	public class ListViewListener implements OnItemClickListener {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+			//get the user's info
+			SimpleAdapter adapter = (SimpleAdapter) a.getAdapter();
+			HashMap<String,Object> map = (HashMap<String,Object>) adapter.getItem(position);
+			String ipTuple = map.get("user").toString ();
+			int slash = ipTuple.indexOf('/');
+			String destInternal = ipTuple.substring(0,slash);
+			String destExternal = ipTuple.substring(slash+1, ipTuple.length());
+			
+			//send the message
+			MessageHelper.showSendMessageDialog(InboxActivity.this, destInternal, destExternal);
+		}
+	}//ListViewListener class
+}//InboxActivity class

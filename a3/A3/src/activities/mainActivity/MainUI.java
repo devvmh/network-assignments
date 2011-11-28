@@ -84,6 +84,7 @@ public class MainUI {
 	}
 	
 	public void updateUI_loadUserList(List<UserInfoObject> userInfoList){
+		UserInfoObject.sort (userInfoList);
 		SimpleAdapter userListAdapter;
 		if (userInfoList.isEmpty ()) {
 			String [] from = {"text"};
