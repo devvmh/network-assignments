@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import activities.inboxActivity.MessageHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -176,8 +177,12 @@ public class ContactListActivity extends Activity {
 	private class ListViewListener implements OnItemClickListener {
 		@SuppressWarnings("unchecked")
 		public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-			//returns the map<String, Object> of the longitude, latitude, interests, and IPs
-			updateContact ((HashMap<String, Object>)a.getItemAtPosition(position));
+			//get the user's IP addresses and send the message
+			SimpleAdapter adapter = (SimpleAdapter) a.getAdapter();
+			HashMap<String,Object> map = (HashMap<String,Object>) adapter.getItem(position);
+			String destExternal = map.get("external").toString ();
+			String destInternal = map.get("internal").toString ();
+			MessageHelper.showSendMessageDialog(ContactListActivity.this, destInternal, destExternal);
 		}//onClick
 	}//ListViewListener class
 }//ContactListActivity

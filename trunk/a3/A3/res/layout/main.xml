@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <LinearLayout 
-    	android:layout_height="wrap_content" 
-    	android:id="@+id/linearLayout1" 
-    	android:layout_width="match_parent">
-        <Button 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content" 
-        	android:text="Refresh" 
-        	android:id="@+id/refresh_Button" />
-        <ProgressBar 
-        	android:id="@+id/progressBar1" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content" />
-        <TextView 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/loading_TextView" 
-        	android:text="Loading data from server..." />
-    </LinearLayout>
-    <ListView 
-    	android:layout_height="wrap_content" 
-    	android:layout_width="match_parent" 
-    	android:id="@+id/userList_ListView" />
-</LinearLayout>
+    android:layout_height="fill_parent" >
+	<Button 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:text="Look for users" 
+		android:id="@+id/refresh_Button"
+		android:layout_alignParentLeft="true" 
+		android:layout_toLeftOf="@+id/post_Button"/>
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Check for messages"
+		android:id="@+id/post_Button" 
+		android:layout_alignParentRight="true"/>
+	<LinearLayout 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/linearLayout1" 
+		android:layout_below="@+id/refresh_Button" 
+		android:layout_alignParentLeft="true">
+		<ProgressBar 
+			android:id="@+id/progressBar1" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>
+		<TextView 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/loading_TextView" 
+			android:text="Loading data from server..."/>
+	</LinearLayout>
+	<ListView 
+		android:layout_height="wrap_content" 
+		android:layout_width="match_parent" 
+		android:id="@+id/userList_ListView" 
+		android:layout_alignWithParentIfMissing="true" 
+		android:layout_alignParentLeft="true" 
+		android:layout_below="@+id/refresh_Button" android:layout_alignParentRight="true"/>
+</RelativeLayout>
