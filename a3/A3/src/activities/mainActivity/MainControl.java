@@ -24,6 +24,7 @@ public class MainControl {
 	public CurLocationListener curLocationListener;
 	
 	public ButtonListener buttonListener;
+	public PostButtonListener postButtonListener;
 	public ListViewListener listViewListener;
 	
 	protected Handler handler;
@@ -55,6 +56,7 @@ public class MainControl {
 		
 		//initialize listeners
 		this.buttonListener = new ButtonListener();
+		this.postButtonListener = new PostButtonListener ();
 		this.listViewListener = new ListViewListener ();
 		
 		//tell model to init
@@ -72,6 +74,9 @@ public class MainControl {
 			System.out.println("location not availabe.");
 		}
 		this.curLocationListener = new CurLocationListener();
+		
+		//get the first list of users
+		model.refreshUserList();
 	}
 	
 	public void onResume(){
@@ -111,6 +116,13 @@ public class MainControl {
 			model.refreshUserList();
 		}//onClick
 	}//ButtonListener class
+	
+	private class PostButtonListener implements OnClickListener {
+		public void onClick (View v) {
+			Toast.makeText(activity, "Checking...", Toast.LENGTH_SHORT).show ();
+			model.sendBroadcastMessage ();
+		}//onClick
+	}//PostButtonListener class
 	
 	private class ListViewListener implements OnItemClickListener {
 

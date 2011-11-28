@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import activities.contactListActivity.ContactListActivity;
+import activities.inboxActivity.InboxActivity;
 import activities.prefActivity.PrefActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ public class MainUI {
 	public MainControl control;
 	
 	private Button refresh_Button;
+	private Button post_Button;
 	private ProgressBar progressBar1;
 	private TextView loading_TextView;
 	private ListView userList_ListView;
@@ -53,6 +55,7 @@ public class MainUI {
 
 	private void findViews(){
 		this.refresh_Button = (Button) activity.findViewById(R.id.refresh_Button);
+		this.post_Button = (Button) activity.findViewById(R.id.post_Button);
 		this.progressBar1 = (ProgressBar) activity.findViewById(R.id.progressBar1);
 		this.loading_TextView = (TextView) activity.findViewById(R.id.loading_TextView);
 		this.userList_ListView = (ListView) activity.findViewById(R.id.userList_ListView);
@@ -60,6 +63,7 @@ public class MainUI {
 	
 	private void setListeners(){
 		this.refresh_Button.setOnClickListener(control.buttonListener);
+		this.post_Button.setOnClickListener(control.postButtonListener);
 		this.userList_ListView.setOnItemClickListener(control.listViewListener);
 	}//setListeners
 	
@@ -68,10 +72,14 @@ public class MainUI {
 			this.refresh_Button.setEnabled(false);
 			this.progressBar1.setVisibility(View.VISIBLE);
 			this.loading_TextView.setVisibility(View.VISIBLE);
+			
+			this.userList_ListView.setVisibility(View.INVISIBLE);
 		} else {
 			this.refresh_Button.setEnabled(true);
 			this.progressBar1.setVisibility(View.INVISIBLE);
 			this.loading_TextView.setVisibility(View.INVISIBLE);
+			
+			this.userList_ListView.setVisibility(View.VISIBLE);
 		}
 	}
 	
@@ -130,6 +138,12 @@ public class MainUI {
 				 ContactListActivity.class);
 		 MenuItem contactlist = menu.findItem(R.id.contactlist_option_item);
 		 contactlist.setIntent(contactsIntent);
+		 
+		 //inbox intent
+		 Intent inboxIntent = new Intent (context,
+				 InboxActivity.class);
+		 MenuItem inbox = menu.findItem(R.id.inbox_option_item);
+		 inbox.setIntent(inboxIntent);
 		 return true;
 	}
 

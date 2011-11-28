@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-   	 android:id="@+id/settings_option_item"
-   	 android:icon="@android:drawable/ic_menu_preferences"
-   	 android:title="Set Interests" />
+	xmlns:android="http://schemas.android.com/apk/res/android">
    	<item
-   	 android:id="@+id/contactlist_option_item"
-   	 android:icon="@android:drawable/ic_dialog_email"
-   	 android:title="Recently Contacted" />
+		android:id="@+id/contactlist_option_item"
+		android:icon="@drawable/ic_menu_friendslist"
+		android:title="Recently Contacted" />
+   	<item
+		android:id="@+id/inbox_option_item"
+		android:icon="@drawable/ic_dialog_email"
+		android:title="Inbox" />
+   <item
+		android:id="@+id/settings_option_item"
+		android:icon="@drawable/ic_menu_edit"
+		android:title="Set Interests" />
 </menu>
