@@ -121,7 +121,7 @@ public class DbAdapter {
      * successfully created return the new rowId for that note, otherwise return
      * a -1 to indicate failure.
      */
-    public long addContact(String internal, String external, String longitude, 
+    public void addContact(String internal, String external, String longitude, 
     		String latitude, String interests) {
         ContentValues initialValues = new ContentValues();
         
@@ -132,26 +132,28 @@ public class DbAdapter {
         String ipTuple = internal + "," + external;
         String time = ((Long)System.nanoTime ()).toString ();
         
-        initialValues.put(KEY_IPTUPLE, "\"" + ipTuple + "\"");
-        initialValues.put(KEY_INTERESTS, "\"" + interests + "\"");
+        initialValues.put(KEY_IPTUPLE, "" + ipTuple + "");
+        initialValues.put(KEY_INTERESTS, "" + interests + "");
         initialValues.put(KEY_LONG, longitude);
         initialValues.put(KEY_LAT, latitude);
         initialValues.put(KEY_TTL, time);
 
-        //delete an old entry if it exists then add this new one in
-        int numDeleted = mDb.delete (DATABASE_TABLE, KEY_IPTUPLE + "=\"" + ipTuple + "\"", null);
-        return mDb.insert(DATABASE_TABLE, null, initialValues);
+        //using replace so there won't be duplicate entries
+        deleteContact(internal, external);
+        String query = "INSERT OR REPLACE INTO contacts(_iptuple, _interests, _longitude, _latitude, " +
+        	"_ttl) VALUES('"+ipTuple+"', '"+interests+"', "+longitude+", "+latitude+", "+time+")";
+        mDb.execSQL(query);
     }//addContact
 
      //Delete the entry with the given IP addresses
-    public boolean deleteNote(String internal, String external) {
+    public boolean deleteContact (String internal, String external) {
     	String ipTuple = internal + "," + external;
         return mDb.delete(DATABASE_TABLE, KEY_IPTUPLE + "='" + ipTuple + "'" , null) > 0;
     }
     
     public void deleteAllNotes () {
         mDbHelper.deleteAll (mDb);
-    }
+    }    
 
     /**
      * Return a Cursor over the list of all notes in the database
