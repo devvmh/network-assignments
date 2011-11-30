@@ -11,6 +11,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +60,7 @@ public class Client {
 		//Parse result into UserInfoObject list
 		List<UserInfoObject> UserInfoList = new ArrayList<UserInfoObject>();
 		
+		result = URLDecoder.decode(result);
 		StringTokenizer st = new StringTokenizer(result,"\n");
 		
 		int n = Integer.parseInt(st.nextToken());
@@ -140,7 +142,10 @@ public class Client {
 		    int numMessage = Integer.parseInt(rd.readLine());
 		    for (int i = 0; i < numMessage; i++){
 		    	Date now = new Date();
-		    	MessageObject messageObject = new MessageObject(rd.readLine(), rd.readLine(), now.toGMTString(), rd.readLine());
+		    	String senderInternal = URLDecoder.decode(rd.readLine());
+		    	String senderExternal = URLDecoder.decode(rd.readLine());
+		    	String message = URLDecoder.decode(rd.readLine());
+		    	MessageObject messageObject = new MessageObject(senderInternal, senderExternal, now.toGMTString(), message);
 		    	messageList.add(messageObject);
 		    }
 		    
