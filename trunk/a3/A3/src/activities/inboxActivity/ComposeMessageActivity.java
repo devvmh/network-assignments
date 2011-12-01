@@ -46,7 +46,7 @@ public class ComposeMessageActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         destInternal = extras.getString(Constants.DestInternal);
         destExternal = extras.getString(Constants.DestExternal);
-        userid_TextView.setText(destInternal + "/" + destExternal);
+        userid_TextView.setText("Internal IP: " + destInternal + "\nExternal IP: " + destExternal);
         
     }
     

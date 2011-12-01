@@ -110,7 +110,7 @@ public class MainUI {
 		
 		for (int i = 0; i < userInfoList.size(); i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("img", R.drawable.icon);
+			map.put("img", R.drawable.ic_contacts);
 			map.put("distance", "Distance: " + self.getDistance (userInfoList.get(i)) + " meters away from you.");
 			map.put("interests", "Interests: " + userInfoList.get(i).interests + ".");
 			

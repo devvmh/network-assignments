@@ -1,5 +1,6 @@
 package helperClasses;
 
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Collections;
 
@@ -32,12 +33,13 @@ public class UserInfoObject implements Comparable<UserInfoObject> {
 	public float getDistance (UserInfoObject u) {
 		float [] dist = {0};
 		Location.distanceBetween(this.latitude, this.longitude, u.latitude, u.longitude, dist);
-		return dist [0];
+		return round(dist [0], 2);
 	}
-	
+
 	public static void sort (List<UserInfoObject> lst) {
 		Collections.sort(lst);
 	}
+
 
 	//for sorting
 	@Override
@@ -51,5 +53,13 @@ public class UserInfoObject implements Comparable<UserInfoObject> {
 		float theirDistanceToUser = distArray [0];
 		
 		return (int) (myDistanceToUser - theirDistanceToUser);
+	}
+	
+	
+	private float round(float Rval, int Rpl) {
+		float p = (float)Math.pow(10,Rpl);
+		Rval = Rval * p;
+		float tmp = Math.round(Rval);
+		return (float)tmp/p;
 	}
 }//UserInfoObject class

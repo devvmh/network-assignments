@@ -9,33 +9,34 @@
     	android:layout_height="wrap_content" 
     	android:layout_width="match_parent">
         <TextView 
-        	android:textAppearance="?android:attr/textAppearanceLarge" 
         	android:layout_height="wrap_content" 
         	android:layout_width="wrap_content" 
-        	android:text="To: " />
+        	android:text="To: "/>
         <TextView 
-        	android:textAppearance="?android:attr/textAppearanceLarge" 
         	android:layout_height="wrap_content" 
         	android:layout_width="wrap_content" 
         	android:text="Userid" 
-        	android:id="@+id/userid_TextView" />
+        	android:id="@+id/userid_TextView"/>
     </LinearLayout>
+    <ImageView android:src="@android:drawable/divider_horizontal_dark" android:id="@+id/imageView1" android:layout_gravity="center" android:layout_height="1dp" android:background="#D4D3D3" android:layout_width="fill_parent"></ImageView>
     <TextView 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:text="Message:" />
+    	android:text="Message:"/>
     <EditText 
     	android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
     	android:id="@+id/editMessage_EditText">
         <requestFocus></requestFocus>
     </EditText>
+    <TextView android:text="                          " android:layout_height="wrap_content" android:layout_width="265dp"></TextView>
     <Button 
     	android:layout_gravity="center" 
     	android:layout_height="wrap_content" 
     	android:text="Send" 
     	android:layout_width="90dp" 
-    	android:id="@+id/send_Button" />
+    	android:id="@+id/send_Button"/>
+    <TextView android:text="                        " android:layout_height="wrap_content" android:layout_width="274dp"></TextView>
     <Button 
     	android:layout_gravity="center" 
     	android:layout_height="wrap_content" 
