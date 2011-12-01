@@ -41,8 +41,8 @@ public class MessageHelper {
 	// Trigger this method when click on someone on the contact list
 	public static void showSendMessageDialog(final Activity currentActivity, final String destInternal, final String destExternal){
 		AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
-		builder.setTitle("Send new message")
-			   .setMessage("Send a text message to " + destInternal + "/" + destExternal + " ?")
+		builder.setTitle("Send message")
+			   .setMessage("Do you want to send a text message to \n" + destInternal + " (internal ip)\n" + destExternal + " (external ip) ?")
 		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		           	Intent intent = new Intent(currentActivity.getApplicationContext(), ComposeMessageActivity.class);
