@@ -5,5 +5,6 @@
     <EditTextPreference
     	android:title="Click to edit interests"
         android:dialogTitle="Interests:"
+		android:maxLength="255"
         android:key="interests_string" />
 </PreferenceScreen>

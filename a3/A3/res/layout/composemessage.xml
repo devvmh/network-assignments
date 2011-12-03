@@ -26,6 +26,7 @@
     <EditText 
     	android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
+		android:maxLength="255"
     	android:id="@+id/editMessage_EditText">
         <requestFocus></requestFocus>
     </EditText>
