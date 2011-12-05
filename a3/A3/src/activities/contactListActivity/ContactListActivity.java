@@ -73,7 +73,7 @@ public class ContactListActivity extends Activity {
         Cursor cursor = mDbHelper.fetchAllNotes();
         startManagingCursor(cursor);
         long currentTime = System.nanoTime ();
-        final long DAY = 60000;//1000 * 60 * 60 * 24;
+        final long DAY = 1000 * 60 * 60 * 24;
         
         //this gigantic for loop turns the database entries into a contact list
         //the contact list should remain fairly small as entries are purged after 24 hours

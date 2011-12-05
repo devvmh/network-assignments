@@ -117,7 +117,9 @@ public class MainModel {
 				for (int i = 0; i < messageList.size(); i++){
 					MessageHelper.addMessage(activity, messageList.get(i));
 				}
-				MessageHelper.showViewMessageDialog(activity, "internal/external");
+				String internal = messageList.get(0).senderInternal;
+				String external = messageList.get(0).senderExternal;
+				MessageHelper.showViewMessageDialog(activity, internal + "/" + external);
 			}
 		}
 		

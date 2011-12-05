@@ -24,10 +24,7 @@ public class UserInfoObject implements Comparable<UserInfoObject> {
 	
 	public boolean equals (UserInfoObject u) {
 		return (intIP.equals(u.intIP) &&
-				extIP.equals(u.extIP) &&
-				latitude.equals(u.latitude) &&
-				longitude.equals (u.longitude) &&
-				interests.equals (u.interests));
+				extIP.equals(u.extIP));
 	}
 	
 	public float getDistance (UserInfoObject u) {
@@ -54,8 +51,7 @@ public class UserInfoObject implements Comparable<UserInfoObject> {
 		
 		return (int) (myDistanceToUser - theirDistanceToUser);
 	}
-	
-	
+
 	private float round(float Rval, int Rpl) {
 		float p = (float)Math.pow(10,Rpl);
 		Rval = Rval * p;
